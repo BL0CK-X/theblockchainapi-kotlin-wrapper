@@ -26,7 +26,6 @@ import org.openapitools.client.models.BalanceRequest
 import org.openapitools.client.models.BalanceResponse
 import org.openapitools.client.models.GetPublicKeyRequest
 import org.openapitools.client.models.ListNFTsResponse
-import org.openapitools.client.models.ListTokensRequest
 import org.openapitools.client.models.PublicKey
 import org.openapitools.client.models.SecretPhrase
 import org.openapitools.client.models.TransferRequest
@@ -377,7 +376,8 @@ class SolanaWalletApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-wallet/get-wallet-token-holdings\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.      See the token holdings of a given public key address  &#x60;Cost: 1 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param network The network ID (devnet, mainnet-beta) 
     * @param publicKey The public key of the account whose list of owned NFTs you want to get 
-    * @param listTokensRequest  (optional)
+    * @param includeNfts Whether or not to include NFTs in the response (optional, default to false)
+    * @param includeZeroBalanceHoldings Whether or not to include holdings that have zero balance. This indicates that the wallet held this token or NFT in the past, but no longer holds it. (optional, default to false)
     * @return kotlin.collections.List<kotlin.Any>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
@@ -385,10 +385,10 @@ class SolanaWalletApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun solanaGetTokensBelongingToWallet(network: kotlin.String, publicKey: kotlin.String, listTokensRequest: ListTokensRequest?) : kotlin.collections.List<kotlin.Any> {
-        val localVariableConfig = solanaGetTokensBelongingToWalletRequestConfig(network = network, publicKey = publicKey, listTokensRequest = listTokensRequest)
+    fun solanaGetTokensBelongingToWallet(network: kotlin.String, publicKey: kotlin.String, includeNfts: kotlin.Boolean?, includeZeroBalanceHoldings: kotlin.Boolean?) : kotlin.collections.List<kotlin.Any> {
+        val localVariableConfig = solanaGetTokensBelongingToWalletRequestConfig(network = network, publicKey = publicKey, includeNfts = includeNfts, includeZeroBalanceHoldings = includeZeroBalanceHoldings)
 
-        val localVarResponse = request<ListTokensRequest, kotlin.collections.List<kotlin.Any>>(
+        val localVarResponse = request<Unit, kotlin.collections.List<kotlin.Any>>(
             localVariableConfig
         )
 
@@ -412,12 +412,21 @@ class SolanaWalletApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     *
     * @param network The network ID (devnet, mainnet-beta) 
     * @param publicKey The public key of the account whose list of owned NFTs you want to get 
-    * @param listTokensRequest  (optional)
+    * @param includeNfts Whether or not to include NFTs in the response (optional, default to false)
+    * @param includeZeroBalanceHoldings Whether or not to include holdings that have zero balance. This indicates that the wallet held this token or NFT in the past, but no longer holds it. (optional, default to false)
     * @return RequestConfig
     */
-    fun solanaGetTokensBelongingToWalletRequestConfig(network: kotlin.String, publicKey: kotlin.String, listTokensRequest: ListTokensRequest?) : RequestConfig<ListTokensRequest> {
-        val localVariableBody = listTokensRequest
-        val localVariableQuery: MultiValueMap = mutableMapOf()
+    fun solanaGetTokensBelongingToWalletRequestConfig(network: kotlin.String, publicKey: kotlin.String, includeNfts: kotlin.Boolean?, includeZeroBalanceHoldings: kotlin.Boolean?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+            .apply {
+                if (includeNfts != null) {
+                    put("include_nfts", listOf(includeNfts.toString()))
+                }
+                if (includeZeroBalanceHoldings != null) {
+                    put("include_zero_balance_holdings", listOf(includeZeroBalanceHoldings.toString()))
+                }
+            }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
 
         return RequestConfig(

@@ -334,7 +334,7 @@ Configure APISecretKey:
 
 <a name="solanaGetTokensBelongingToWallet"></a>
 # **solanaGetTokensBelongingToWallet**
-> kotlin.collections.List&lt;kotlin.Any&gt; solanaGetTokensBelongingToWallet(network, publicKey, listTokensRequest)
+> kotlin.collections.List&lt;kotlin.Any&gt; solanaGetTokensBelongingToWallet(network, publicKey, includeNfts, includeZeroBalanceHoldings)
 
 Get address&#39;s tokens and respective balances
 
@@ -349,9 +349,10 @@ Get address&#39;s tokens and respective balances
 val apiInstance = SolanaWalletApi()
 val network : kotlin.String = mainnet-beta // kotlin.String | The network ID (devnet, mainnet-beta)
 val publicKey : kotlin.String = GKNcUmNacSJo4S2Kq3DuYRYRGw3sNUfJ4tyqd198t6vQ // kotlin.String | The public key of the account whose list of owned NFTs you want to get
-val listTokensRequest : ListTokensRequest =  // ListTokensRequest | 
+val includeNfts : kotlin.Boolean = false // kotlin.Boolean | Whether or not to include NFTs in the response
+val includeZeroBalanceHoldings : kotlin.Boolean = false // kotlin.Boolean | Whether or not to include holdings that have zero balance. This indicates that the wallet held this token or NFT in the past, but no longer holds it.
 try {
-    val result : kotlin.collections.List<kotlin.Any> = apiInstance.solanaGetTokensBelongingToWallet(network, publicKey, listTokensRequest)
+    val result : kotlin.collections.List<kotlin.Any> = apiInstance.solanaGetTokensBelongingToWallet(network, publicKey, includeNfts, includeZeroBalanceHoldings)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling SolanaWalletApi#solanaGetTokensBelongingToWallet")
@@ -368,7 +369,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **network** | **kotlin.String**| The network ID (devnet, mainnet-beta) |
  **publicKey** | **kotlin.String**| The public key of the account whose list of owned NFTs you want to get |
- **listTokensRequest** | [**ListTokensRequest**](ListTokensRequest.md)|  | [optional]
+ **includeNfts** | **kotlin.Boolean**| Whether or not to include NFTs in the response | [optional] [default to false]
+ **includeZeroBalanceHoldings** | **kotlin.Boolean**| Whether or not to include holdings that have zero balance. This indicates that the wallet held this token or NFT in the past, but no longer holds it. | [optional] [default to false]
 
 ### Return type
 
@@ -386,7 +388,7 @@ Configure APISecretKey:
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 <a name="solanaTransfer"></a>

@@ -90,7 +90,6 @@ Class | Method | HTTP request | Description
  - [org.openapitools.client.models.GetFileResponse](docs/GetFileResponse.md)
  - [org.openapitools.client.models.GetPublicKeyRequest](docs/GetPublicKeyRequest.md)
  - [org.openapitools.client.models.ListNFTsResponse](docs/ListNFTsResponse.md)
- - [org.openapitools.client.models.ListTokensRequest](docs/ListTokensRequest.md)
  - [org.openapitools.client.models.MintNFTErrorResponse](docs/MintNFTErrorResponse.md)
  - [org.openapitools.client.models.MintNFTRequest](docs/MintNFTRequest.md)
  - [org.openapitools.client.models.MintNFTResponse](docs/MintNFTResponse.md)

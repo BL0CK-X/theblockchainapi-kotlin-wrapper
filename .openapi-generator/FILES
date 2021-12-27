@@ -26,7 +26,6 @@ docs/GetCandyMetadataResponseCreators.md
 docs/GetFileResponse.md
 docs/GetPublicKeyRequest.md
 docs/ListNFTsResponse.md
-docs/ListTokensRequest.md
 docs/MintNFTErrorResponse.md
 docs/MintNFTRequest.md
 docs/MintNFTResponse.md
@@ -101,7 +100,6 @@ src/main/kotlin/org/openapitools/client/models/GetCandyMetadataResponseCreators.
 src/main/kotlin/org/openapitools/client/models/GetFileResponse.kt
 src/main/kotlin/org/openapitools/client/models/GetPublicKeyRequest.kt
 src/main/kotlin/org/openapitools/client/models/ListNFTsResponse.kt
-src/main/kotlin/org/openapitools/client/models/ListTokensRequest.kt
 src/main/kotlin/org/openapitools/client/models/MintNFTErrorResponse.kt
 src/main/kotlin/org/openapitools/client/models/MintNFTRequest.kt
 src/main/kotlin/org/openapitools/client/models/MintNFTResponse.kt
