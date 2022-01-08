@@ -18,30 +18,83 @@
     "UnusedImport"
 )
 
-package org.openapitools.client.models
+package org.openapitools.client.apis
 
-import org.openapitools.client.models.TransactionResult
+import org.openapitools.client.models.GetSPLTokenResponse
 
-import com.squareup.moshi.Json
+import org.openapitools.client.infrastructure.ApiClient
+import org.openapitools.client.infrastructure.ClientException
+import org.openapitools.client.infrastructure.ClientError
+import org.openapitools.client.infrastructure.ServerException
+import org.openapitools.client.infrastructure.ServerError
+import org.openapitools.client.infrastructure.MultiValueMap
+import org.openapitools.client.infrastructure.RequestConfig
+import org.openapitools.client.infrastructure.RequestMethod
+import org.openapitools.client.infrastructure.ResponseType
+import org.openapitools.client.infrastructure.Success
+import org.openapitools.client.infrastructure.toMultiValue
 
-/**
- * 
- *
- * @param id 
- * @param jsonrpc 
- * @param result 
- */
+class SolanaSPLTokenApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
+    companion object {
+        @JvmStatic
+        val defaultBasePath: String by lazy {
+            System.getProperties().getProperty("org.openapitools.client.baseUrl", "https://api.theblockchainapi.com/v1")
+        }
+    }
 
-data class Transaction (
+    /**
+    * Get SPL token metadata
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-spl-token/get-spl-token\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Retrieves basic information about an SPL token given its &#x60;mint_address&#x60;.  You can see the mint addresses of popular SPL tokens &lt;a href&#x3D;\&quot;https://raw.githubusercontent.com/solana-labs/token-list/main/src/tokens/solana.tokenlist.json\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Some example mint addresses of SPL tokens: - USDC: EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v - Mango: MangoCzJ36AjZyKwVj3VnYU4GTonjfVEnJmvvWaxLac - Serum: SRMuApVNdxXokk5GT7XD5cUUgXMBCoAz2LHeuAoKWRt - Raydium: 4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R - wSOL: So11111111111111111111111111111111111111112 - ATLAS: ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx  &#x60;Cost: 1 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param publicKey The public key of the token 
+    * @param network The network ID (devnet, mainnet-beta) 
+    * @return GetSPLTokenResponse
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun solanaGetSPLToken(publicKey: kotlin.String, network: kotlin.String) : GetSPLTokenResponse {
+        val localVariableConfig = solanaGetSPLTokenRequestConfig(publicKey = publicKey, network = network)
 
-    @Json(name = "id")
-    val id: java.math.BigDecimal? = null,
+        val localVarResponse = request<Unit, GetSPLTokenResponse>(
+            localVariableConfig
+        )
 
-    @Json(name = "jsonrpc")
-    val jsonrpc: kotlin.String? = null,
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as GetSPLTokenResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
 
-    @Json(name = "result")
-    val result: TransactionResult? = null
+    /**
+    * To obtain the request config of the operation solanaGetSPLToken
+    *
+    * @param publicKey The public key of the token 
+    * @param network The network ID (devnet, mainnet-beta) 
+    * @return RequestConfig
+    */
+    fun solanaGetSPLTokenRequestConfig(publicKey: kotlin.String, network: kotlin.String) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
 
-)
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/solana/spl-token/{network}/{public_key}".replace("{"+"public_key"+"}", "$publicKey").replace("{"+"network"+"}", "$network"),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+    }
 
+}

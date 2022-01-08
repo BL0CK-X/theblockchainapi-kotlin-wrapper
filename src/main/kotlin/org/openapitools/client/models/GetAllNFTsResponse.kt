@@ -31,6 +31,7 @@ import com.squareup.moshi.Json
  * @param mintedNfts The minted NFTs. Only filled in for `v1` candy machines. Left empty for `v2`.
  * @param unmintedNfts The unminted NFTs. Only filled in for `v1` candy machines. Left empty for `v2`.
  * @param allNfts The list of all NFTs. Filled in for both `v1` and `v2` NFTs.
+ * @param accurate Whether or not the division of NFTs among minted and unminted is accurate. If it is not accurate, then it is possible that NFTs have been included in the `minted` list that are not actually minted. If it is accurate, then the split of  minted and unminted is correct. `v1` candy machines always return a correct minted/unminted split.  
  */
 
 data class GetAllNFTsResponse (
@@ -45,7 +46,11 @@ data class GetAllNFTsResponse (
 
     /* The list of all NFTs. Filled in for both `v1` and `v2` NFTs. */
     @Json(name = "all_nfts")
-    val allNfts: kotlin.collections.List<GetAllNFTsResponseUnmintedNfts>? = null
+    val allNfts: kotlin.collections.List<GetAllNFTsResponseUnmintedNfts>? = null,
+
+    /* Whether or not the division of NFTs among minted and unminted is accurate. If it is not accurate, then it is possible that NFTs have been included in the `minted` list that are not actually minted. If it is accurate, then the split of  minted and unminted is correct. `v1` candy machines always return a correct minted/unminted split.   */
+    @Json(name = "accurate")
+    val accurate: kotlin.Boolean? = null
 
 )
 

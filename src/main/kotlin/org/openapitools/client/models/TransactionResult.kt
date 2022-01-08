@@ -20,28 +20,31 @@
 
 package org.openapitools.client.models
 
-import org.openapitools.client.models.TransactionResult
 
 import com.squareup.moshi.Json
 
 /**
  * 
  *
- * @param id 
- * @param jsonrpc 
- * @param result 
+ * @param blockTime 
+ * @param meta 
+ * @param slot 
+ * @param transaction 
  */
 
-data class Transaction (
+data class TransactionResult (
 
-    @Json(name = "id")
-    val id: java.math.BigDecimal? = null,
+    @Json(name = "block_time")
+    val blockTime: java.math.BigDecimal? = null,
 
-    @Json(name = "jsonrpc")
-    val jsonrpc: kotlin.String? = null,
+    @Json(name = "meta")
+    val meta: kotlin.Any? = null,
 
-    @Json(name = "result")
-    val result: TransactionResult? = null
+    @Json(name = "slot")
+    val slot: java.math.BigDecimal? = null,
+
+    @Json(name = "transaction")
+    val transaction: kotlin.Any? = null
 
 )
 

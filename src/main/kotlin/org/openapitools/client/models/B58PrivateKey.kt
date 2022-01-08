@@ -20,28 +20,20 @@
 
 package org.openapitools.client.models
 
-import org.openapitools.client.models.TransactionResult
 
 import com.squareup.moshi.Json
 
 /**
  * 
  *
- * @param id 
- * @param jsonrpc 
- * @param result 
+ * @param b58PrivateKey A private key corresponds to exactly one public key address. A private key can be used to move assets out of the wallet and sign transaction with the corresponding public key.  A base58-encoded private key is a base58-encoded version of the typical private key. It is represented as a string (e.g., `4waBTVeAVWEAczSdx36uMrR19668ACgQDs7r386vrUes3UCzvXCQ2FPSCVGb1zJrwcULgpNzgABreyQaWSpGBwfx`).  <a href=\"https://phantom.app\" target=\"_blank\">Phantom</a> is a popular wallet interface on Solana that allows you to export your private key in this format.
  */
 
-data class Transaction (
+data class B58PrivateKey (
 
-    @Json(name = "id")
-    val id: java.math.BigDecimal? = null,
-
-    @Json(name = "jsonrpc")
-    val jsonrpc: kotlin.String? = null,
-
-    @Json(name = "result")
-    val result: TransactionResult? = null
+    /* A private key corresponds to exactly one public key address. A private key can be used to move assets out of the wallet and sign transaction with the corresponding public key.  A base58-encoded private key is a base58-encoded version of the typical private key. It is represented as a string (e.g., `4waBTVeAVWEAczSdx36uMrR19668ACgQDs7r386vrUes3UCzvXCQ2FPSCVGb1zJrwcULgpNzgABreyQaWSpGBwfx`).  <a href=\"https://phantom.app\" target=\"_blank\">Phantom</a> is a popular wallet interface on Solana that allows you to export your private key in this format. */
+    @Json(name = "b58_private_key")
+    val b58PrivateKey: kotlin.String
 
 )
 

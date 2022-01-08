@@ -20,28 +20,39 @@
 
 package org.openapitools.client.models
 
-import org.openapitools.client.models.TransactionResult
 
 import com.squareup.moshi.Json
 
 /**
  * 
  *
- * @param id 
- * @param jsonrpc 
- * @param result 
+ * @param decimals The number of decimals of the token. For example, if the USDC token has 6 decimals, then you need 1 * 10e6 = 1,000,000 tokens to have 1 USDC. The purpose of this is that everything must be stored as  an integer. Thus, if there are $100 USDC in total, there must be $100 * 10e6 tokens in order for the $100 to be divisible into lower denominations than $1. 
+ * @param freezeAuthority Public key address
+ * @param mintAuthority Public key address
+ * @param isInitialized 
+ * @param supply The supply of the token
  */
 
-data class Transaction (
+data class GetSPLTokenResponse (
 
-    @Json(name = "id")
-    val id: java.math.BigDecimal? = null,
+    /* The number of decimals of the token. For example, if the USDC token has 6 decimals, then you need 1 * 10e6 = 1,000,000 tokens to have 1 USDC. The purpose of this is that everything must be stored as  an integer. Thus, if there are $100 USDC in total, there must be $100 * 10e6 tokens in order for the $100 to be divisible into lower denominations than $1.  */
+    @Json(name = "decimals")
+    val decimals: java.math.BigDecimal? = null,
 
-    @Json(name = "jsonrpc")
-    val jsonrpc: kotlin.String? = null,
+    /* Public key address */
+    @Json(name = "freeze_authority")
+    val freezeAuthority: kotlin.String? = null,
 
-    @Json(name = "result")
-    val result: TransactionResult? = null
+    /* Public key address */
+    @Json(name = "mint_authority")
+    val mintAuthority: kotlin.String? = null,
+
+    @Json(name = "is_initialized")
+    val isInitialized: kotlin.Boolean? = null,
+
+    /* The supply of the token */
+    @Json(name = "supply")
+    val supply: kotlin.String? = null
 
 )
 
