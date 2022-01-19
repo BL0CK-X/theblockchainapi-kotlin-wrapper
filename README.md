@@ -51,6 +51,10 @@ Class | Method | HTTP request | Description
 *SolanaNFTApi* | [**solanaGetNFTOwner**](docs/SolanaNFTApi.md#solanagetnftowner) | **GET** /solana/nft/{network}/{mint_address}/owner | Get owner of an NFT
 *SolanaNFTApi* | [**solanaGetNFTsCandyMachineId**](docs/SolanaNFTApi.md#solanagetnftscandymachineid) | **POST** /solana/nft/candy_machine_id | Get the ID of the candy machine of an NFT 
 *SolanaNFTApi* | [**solanaSearchNFTs**](docs/SolanaNFTApi.md#solanasearchnfts) | **POST** /solana/nft/search | Search NFTs on Solana
+*SolanaNFTMarketplacesApi* | [**solanaBuyNFT**](docs/SolanaNFTMarketplacesApi.md#solanabuynft) | **POST** /solana/nft/marketplaces/{exchange}/buy/{network}/{mint_address} | Buy
+*SolanaNFTMarketplacesApi* | [**solanaDelistNFT**](docs/SolanaNFTMarketplacesApi.md#solanadelistnft) | **POST** /solana/nft/marketplaces/{exchange}/delist/{network}/{mint_address} | Delist
+*SolanaNFTMarketplacesApi* | [**solanaGetNFTListing**](docs/SolanaNFTMarketplacesApi.md#solanagetnftlisting) | **GET** /solana/nft/marketplaces/listing/{network}/{mint_address} | Get NFT Listing
+*SolanaNFTMarketplacesApi* | [**solanaListNFT**](docs/SolanaNFTMarketplacesApi.md#solanalistnft) | **POST** /solana/nft/marketplaces/{exchange}/list/{network}/{mint_address} | List
 *SolanaSPLTokenApi* | [**solanaGetSPLToken**](docs/SolanaSPLTokenApi.md#solanagetspltoken) | **GET** /solana/spl-token/{network}/{public_key} | Get SPL token metadata
 *SolanaTransactionApi* | [**solanaGetTransaction**](docs/SolanaTransactionApi.md#solanagettransaction) | **GET** /solana/transaction/{network}/{tx_signature} | Get the details of a transaction made on Solana
 *SolanaWalletApi* | [**solanaDeriveAssociatedTokenAccountAddress**](docs/SolanaWalletApi.md#solanaderiveassociatedtokenaccountaddress) | **GET** /solana/wallet/{public_key}/associated_token_account/{mint_address} | Derive an associated token account address
@@ -78,9 +82,13 @@ Class | Method | HTTP request | Description
  - [org.openapitools.client.models.B58PrivateKey](docs/B58PrivateKey.md)
  - [org.openapitools.client.models.BalanceRequest](docs/BalanceRequest.md)
  - [org.openapitools.client.models.BalanceResponse](docs/BalanceResponse.md)
+ - [org.openapitools.client.models.BuyRequest](docs/BuyRequest.md)
+ - [org.openapitools.client.models.BuyResponse](docs/BuyResponse.md)
  - [org.openapitools.client.models.CandyMachineSearchRequest](docs/CandyMachineSearchRequest.md)
  - [org.openapitools.client.models.CreateTestCandyMachineRequest](docs/CreateTestCandyMachineRequest.md)
  - [org.openapitools.client.models.CreateTestCandyMachineResponse](docs/CreateTestCandyMachineResponse.md)
+ - [org.openapitools.client.models.DelistRequest](docs/DelistRequest.md)
+ - [org.openapitools.client.models.DelistResponse](docs/DelistResponse.md)
  - [org.openapitools.client.models.GeneratePrivateKey](docs/GeneratePrivateKey.md)
  - [org.openapitools.client.models.GetAllNFTsResponse](docs/GetAllNFTsResponse.md)
  - [org.openapitools.client.models.GetAllNFTsResponseMintedNfts](docs/GetAllNFTsResponseMintedNfts.md)
@@ -92,9 +100,12 @@ Class | Method | HTTP request | Description
  - [org.openapitools.client.models.GetCandyMetadataResponse](docs/GetCandyMetadataResponse.md)
  - [org.openapitools.client.models.GetCandyMetadataResponseCreators](docs/GetCandyMetadataResponseCreators.md)
  - [org.openapitools.client.models.GetFileResponse](docs/GetFileResponse.md)
+ - [org.openapitools.client.models.GetNFTListingResponse](docs/GetNFTListingResponse.md)
  - [org.openapitools.client.models.GetPublicKeyRequest](docs/GetPublicKeyRequest.md)
  - [org.openapitools.client.models.GetSPLTokenResponse](docs/GetSPLTokenResponse.md)
  - [org.openapitools.client.models.ListNFTsResponse](docs/ListNFTsResponse.md)
+ - [org.openapitools.client.models.ListRequest](docs/ListRequest.md)
+ - [org.openapitools.client.models.ListResponse](docs/ListResponse.md)
  - [org.openapitools.client.models.MintNFTErrorResponse](docs/MintNFTErrorResponse.md)
  - [org.openapitools.client.models.MintNFTRequest](docs/MintNFTRequest.md)
  - [org.openapitools.client.models.MintNFTResponse](docs/MintNFTResponse.md)
