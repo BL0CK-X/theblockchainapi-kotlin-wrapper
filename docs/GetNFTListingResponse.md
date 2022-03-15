@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **listingTransactionSignature** | **kotlin.String** | The signature of the listing transaction  |  [optional]
 **mintAddress** | **kotlin.String** | The mint address of the NFT  |  [optional]
 **price** | [**java.math.BigDecimal**](java.math.BigDecimal.md) | The price of the NFT in Lamports. Represented as an integer. |  [optional]
+**seller** | **kotlin.String** | The public key of the seller |  [optional]
 
 
 <a name="Exchange"></a>
