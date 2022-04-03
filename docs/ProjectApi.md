@@ -72,7 +72,7 @@ Configure APISecretKey:
 
 <a name="createProjectVersion"></a>
 # **createProjectVersion**
-> Project createProjectVersion(UNKNOWN_PARAMETER_NAME, UNKNOWN_PARAMETER_NAME2)
+> Project createProjectVersion(projectId, version)
 
 Create a new project version 
 
@@ -85,10 +85,10 @@ A complete example and walkthrough of the program can be found &lt;a href&#x3D;\
 //import org.openapitools.client.models.*
 
 val apiInstance = ProjectApi()
-val UNKNOWN_PARAMETER_NAME :  = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC //  | The ID of the project. Created and returned when a project is created.
-val UNKNOWN_PARAMETER_NAME2 :  = 2 //  | The version of the project.
+val projectId : kotlin.String = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC // kotlin.String | The ID of the project. Created and returned when a project is created.
+val version : kotlin.String = 2 // kotlin.String | The version of the project.
 try {
-    val result : Project = apiInstance.createProjectVersion(UNKNOWN_PARAMETER_NAME, UNKNOWN_PARAMETER_NAME2)
+    val result : Project = apiInstance.createProjectVersion(projectId, version)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling ProjectApi#createProjectVersion")
@@ -103,8 +103,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAMETER_NAME** | [****](.md)| The ID of the project. Created and returned when a project is created. |
- **UNKNOWN_PARAMETER_NAME2** | [****](.md)| The version of the project. |
+ **projectId** | **kotlin.String**| The ID of the project. Created and returned when a project is created. |
+ **version** | **kotlin.String**| The version of the project. |
 
 ### Return type
 
@@ -127,7 +127,7 @@ Configure APISecretKey:
 
 <a name="deleteProject"></a>
 # **deleteProject**
-> deleteProject(UNKNOWN_PARAMETER_NAME)
+> deleteProject(projectId)
 
 Delete a project 
 
@@ -140,9 +140,9 @@ A complete example and walkthrough of the program can be found &lt;a href&#x3D;\
 //import org.openapitools.client.models.*
 
 val apiInstance = ProjectApi()
-val UNKNOWN_PARAMETER_NAME :  = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC //  | The ID of the project. Created and returned when a project is created.
+val projectId : kotlin.String = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC // kotlin.String | The ID of the project. Created and returned when a project is created.
 try {
-    apiInstance.deleteProject(UNKNOWN_PARAMETER_NAME)
+    apiInstance.deleteProject(projectId)
 } catch (e: ClientException) {
     println("4xx response calling ProjectApi#deleteProject")
     e.printStackTrace()
@@ -156,7 +156,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAMETER_NAME** | [****](.md)| The ID of the project. Created and returned when a project is created. |
+ **projectId** | **kotlin.String**| The ID of the project. Created and returned when a project is created. |
 
 ### Return type
 
@@ -179,7 +179,7 @@ Configure APISecretKey:
 
 <a name="deleteProjectVersion"></a>
 # **deleteProjectVersion**
-> Project deleteProjectVersion(UNKNOWN_PARAMETER_NAME, UNKNOWN_PARAMETER_NAME2)
+> Project deleteProjectVersion(projectId, version)
 
 Delete a project version 
 
@@ -192,10 +192,10 @@ A complete example and walkthrough of the program can be found &lt;a href&#x3D;\
 //import org.openapitools.client.models.*
 
 val apiInstance = ProjectApi()
-val UNKNOWN_PARAMETER_NAME :  = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC //  | The ID of the project. Created and returned when a project is created.
-val UNKNOWN_PARAMETER_NAME2 :  = 2 //  | The version of the project.
+val projectId : kotlin.String = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC // kotlin.String | The ID of the project. Created and returned when a project is created.
+val version : kotlin.String = 2 // kotlin.String | The version of the project.
 try {
-    val result : Project = apiInstance.deleteProjectVersion(UNKNOWN_PARAMETER_NAME, UNKNOWN_PARAMETER_NAME2)
+    val result : Project = apiInstance.deleteProjectVersion(projectId, version)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling ProjectApi#deleteProjectVersion")
@@ -210,8 +210,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAMETER_NAME** | [****](.md)| The ID of the project. Created and returned when a project is created. |
- **UNKNOWN_PARAMETER_NAME2** | [****](.md)| The version of the project. |
+ **projectId** | **kotlin.String**| The ID of the project. Created and returned when a project is created. |
+ **version** | **kotlin.String**| The version of the project. |
 
 ### Return type
 
@@ -234,7 +234,7 @@ Configure APISecretKey:
 
 <a name="getProject"></a>
 # **getProject**
-> Project getProject(UNKNOWN_PARAMETER_NAME)
+> Project getProject(projectId)
 
 Get a project&#39;s metadata 
 
@@ -247,9 +247,9 @@ A complete example and walkthrough of the program can be found &lt;a href&#x3D;\
 //import org.openapitools.client.models.*
 
 val apiInstance = ProjectApi()
-val UNKNOWN_PARAMETER_NAME :  = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC //  | The ID of the project. Created and returned when a project is created.
+val projectId : kotlin.String = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC // kotlin.String | The ID of the project. Created and returned when a project is created.
 try {
-    val result : Project = apiInstance.getProject(UNKNOWN_PARAMETER_NAME)
+    val result : Project = apiInstance.getProject(projectId)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling ProjectApi#getProject")
@@ -264,7 +264,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAMETER_NAME** | [****](.md)| The ID of the project. Created and returned when a project is created. |
+ **projectId** | **kotlin.String**| The ID of the project. Created and returned when a project is created. |
 
 ### Return type
 
@@ -287,7 +287,7 @@ Configure APISecretKey:
 
 <a name="getProjectDeploymentStatus"></a>
 # **getProjectDeploymentStatus**
-> kotlin.Any getProjectDeploymentStatus(UNKNOWN_PARAMETER_NAME)
+> kotlin.Any getProjectDeploymentStatus(projectId)
 
 Get deployment status 
 
@@ -300,9 +300,9 @@ A complete example and walkthrough of the program can be found &lt;a href&#x3D;\
 //import org.openapitools.client.models.*
 
 val apiInstance = ProjectApi()
-val UNKNOWN_PARAMETER_NAME :  = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC //  | The ID of the project. Created and returned when a project is created.
+val projectId : kotlin.String = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC // kotlin.String | The ID of the project. Created and returned when a project is created.
 try {
-    val result : kotlin.Any = apiInstance.getProjectDeploymentStatus(UNKNOWN_PARAMETER_NAME)
+    val result : kotlin.Any = apiInstance.getProjectDeploymentStatus(projectId)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling ProjectApi#getProjectDeploymentStatus")
@@ -317,7 +317,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAMETER_NAME** | [****](.md)| The ID of the project. Created and returned when a project is created. |
+ **projectId** | **kotlin.String**| The ID of the project. Created and returned when a project is created. |
 
 ### Return type
 
@@ -340,7 +340,7 @@ Configure APISecretKey:
 
 <a name="getProjectDeploymentURL"></a>
 # **getProjectDeploymentURL**
-> ProjectDeploymentURL getProjectDeploymentURL(UNKNOWN_PARAMETER_NAME, UNKNOWN_BASE_TYPE)
+> ProjectDeploymentURL getProjectDeploymentURL(projectId, inlineObject)
 
 Get the deployment URL 
 
@@ -353,10 +353,10 @@ A complete example and walkthrough of the program can be found &lt;a href&#x3D;\
 //import org.openapitools.client.models.*
 
 val apiInstance = ProjectApi()
-val UNKNOWN_PARAMETER_NAME :  = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC //  | The ID of the project. Created and returned when a project is created.
-val UNKNOWN_BASE_TYPE : UNKNOWN_BASE_TYPE =  // UNKNOWN_BASE_TYPE | 
+val projectId : kotlin.String = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC // kotlin.String | The ID of the project. Created and returned when a project is created.
+val inlineObject : InlineObject =  // InlineObject | 
 try {
-    val result : ProjectDeploymentURL = apiInstance.getProjectDeploymentURL(UNKNOWN_PARAMETER_NAME, UNKNOWN_BASE_TYPE)
+    val result : ProjectDeploymentURL = apiInstance.getProjectDeploymentURL(projectId, inlineObject)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling ProjectApi#getProjectDeploymentURL")
@@ -371,8 +371,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAMETER_NAME** | [****](.md)| The ID of the project. Created and returned when a project is created. |
- **UNKNOWN_BASE_TYPE** | [**UNKNOWN_BASE_TYPE**](UNKNOWN_BASE_TYPE.md)|  | [optional]
+ **projectId** | **kotlin.String**| The ID of the project. Created and returned when a project is created. |
+ **inlineObject** | [**InlineObject**](InlineObject.md)|  | [optional]
 
 ### Return type
 
@@ -395,7 +395,7 @@ Configure APISecretKey:
 
 <a name="getProjectStats"></a>
 # **getProjectStats**
-> kotlin.collections.List&lt;StatItem&gt; getProjectStats(UNKNOWN_PARAMETER_NAME)
+> kotlin.collections.List&lt;StatItem&gt; getProjectStats(projectId)
 
 Get a project&#39;s stats 
 
@@ -408,9 +408,9 @@ A complete example and walkthrough of the program can be found &lt;a href&#x3D;\
 //import org.openapitools.client.models.*
 
 val apiInstance = ProjectApi()
-val UNKNOWN_PARAMETER_NAME :  = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC //  | The ID of the project. Created and returned when a project is created.
+val projectId : kotlin.String = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC // kotlin.String | The ID of the project. Created and returned when a project is created.
 try {
-    val result : kotlin.collections.List<StatItem> = apiInstance.getProjectStats(UNKNOWN_PARAMETER_NAME)
+    val result : kotlin.collections.List<StatItem> = apiInstance.getProjectStats(projectId)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling ProjectApi#getProjectStats")
@@ -425,7 +425,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAMETER_NAME** | [****](.md)| The ID of the project. Created and returned when a project is created. |
+ **projectId** | **kotlin.String**| The ID of the project. Created and returned when a project is created. |
 
 ### Return type
 
@@ -497,7 +497,7 @@ Configure APISecretKey:
 
 <a name="updateProject"></a>
 # **updateProject**
-> Project updateProject(UNKNOWN_PARAMETER_NAME, projectCreateRequest)
+> Project updateProject(projectId, projectCreateRequest)
 
 Update a project 
 
@@ -510,10 +510,10 @@ A complete example and walkthrough of the program can be found &lt;a href&#x3D;\
 //import org.openapitools.client.models.*
 
 val apiInstance = ProjectApi()
-val UNKNOWN_PARAMETER_NAME :  = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC //  | The ID of the project. Created and returned when a project is created.
+val projectId : kotlin.String = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC // kotlin.String | The ID of the project. Created and returned when a project is created.
 val projectCreateRequest : ProjectCreateRequest =  // ProjectCreateRequest | 
 try {
-    val result : Project = apiInstance.updateProject(UNKNOWN_PARAMETER_NAME, projectCreateRequest)
+    val result : Project = apiInstance.updateProject(projectId, projectCreateRequest)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling ProjectApi#updateProject")
@@ -528,7 +528,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAMETER_NAME** | [****](.md)| The ID of the project. Created and returned when a project is created. |
+ **projectId** | **kotlin.String**| The ID of the project. Created and returned when a project is created. |
  **projectCreateRequest** | [**ProjectCreateRequest**](ProjectCreateRequest.md)|  | [optional]
 
 ### Return type
@@ -552,7 +552,7 @@ Configure APISecretKey:
 
 <a name="updateProjectDocumentation"></a>
 # **updateProjectDocumentation**
-> Project updateProjectDocumentation(UNKNOWN_PARAMETER_NAME, UNKNOWN_PARAMETER_NAME2)
+> Project updateProjectDocumentation(projectId, version)
 
 Update the project&#39;s documentation 
 
@@ -565,10 +565,10 @@ A complete example and walkthrough of the program can be found &lt;a href&#x3D;\
 //import org.openapitools.client.models.*
 
 val apiInstance = ProjectApi()
-val UNKNOWN_PARAMETER_NAME :  = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC //  | The ID of the project. Created and returned when a project is created.
-val UNKNOWN_PARAMETER_NAME2 :  = 2 //  | The version of the project.
+val projectId : kotlin.String = L3cPm0cJlf5MeDXzGLQJJ4vlzndJCC // kotlin.String | The ID of the project. Created and returned when a project is created.
+val version : kotlin.String = 2 // kotlin.String | The version of the project.
 try {
-    val result : Project = apiInstance.updateProjectDocumentation(UNKNOWN_PARAMETER_NAME, UNKNOWN_PARAMETER_NAME2)
+    val result : Project = apiInstance.updateProjectDocumentation(projectId, version)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling ProjectApi#updateProjectDocumentation")
@@ -583,8 +583,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAMETER_NAME** | [****](.md)| The ID of the project. Created and returned when a project is created. |
- **UNKNOWN_PARAMETER_NAME2** | [****](.md)| The version of the project. |
+ **projectId** | **kotlin.String**| The ID of the project. Created and returned when a project is created. |
+ **version** | **kotlin.String**| The version of the project. |
 
 ### Return type
 

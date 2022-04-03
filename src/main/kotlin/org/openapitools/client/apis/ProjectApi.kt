@@ -20,11 +20,11 @@
 
 package org.openapitools.client.apis
 
+import org.openapitools.client.models.InlineObject
 import org.openapitools.client.models.Project
 import org.openapitools.client.models.ProjectCreateRequest
 import org.openapitools.client.models.ProjectDeploymentURL
 import org.openapitools.client.models.StatItem
-import org.openapitools.client.models.UNKNOWN_BASE_TYPE
 
 import org.openapitools.client.infrastructure.ApiClient
 import org.openapitools.client.infrastructure.ClientException
@@ -102,8 +102,8 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * Create a new project version 
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Create a new version for the project. The version must be higher than all existing versions. This will duplicate the existing project&#39;s latest version and auto-deploy it. To update these endpoints, simply redeploy on this project&#39;s versions.  When a project is first created, it uses the default \&quot;0.0.1\&quot; version.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
-    * @param UNKNOWN_PARAMETER_NAME2 The version of the project. 
+    * @param projectId The ID of the project. Created and returned when a project is created. 
+    * @param version The version of the project. 
     * @return Project
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
@@ -111,8 +111,8 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createProjectVersion(UNKNOWN_PARAMETER_NAME: , UNKNOWN_PARAMETER_NAME2: ) : Project {
-        val localVariableConfig = createProjectVersionRequestConfig(UNKNOWN_PARAMETER_NAME = UNKNOWN_PARAMETER_NAME, UNKNOWN_PARAMETER_NAME2 = UNKNOWN_PARAMETER_NAME2)
+    fun createProjectVersion(projectId: kotlin.String, version: kotlin.String) : Project {
+        val localVariableConfig = createProjectVersionRequestConfig(projectId = projectId, version = version)
 
         val localVarResponse = request<Unit, Project>(
             localVariableConfig
@@ -136,18 +136,18 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * To obtain the request config of the operation createProjectVersion
     *
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
-    * @param UNKNOWN_PARAMETER_NAME2 The version of the project. 
+    * @param projectId The ID of the project. Created and returned when a project is created. 
+    * @param version The version of the project. 
     * @return RequestConfig
     */
-    fun createProjectVersionRequestConfig(UNKNOWN_PARAMETER_NAME: , UNKNOWN_PARAMETER_NAME2: ) : RequestConfig<Unit> {
+    fun createProjectVersionRequestConfig(projectId: kotlin.String, version: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/project/{project_id}/{version}".replace("{"+"project_id"+"}", "$UNKNOWN_PARAMETER_NAME").replace("{"+"version"+"}", "$UNKNOWN_PARAMETER_NAME2"),
+            path = "/project/{project_id}/{version}".replace("{"+"project_id"+"}", "$projectId").replace("{"+"version"+"}", "$version"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -157,15 +157,15 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * Delete a project 
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Deletes a project. This will remove the mini-API entirely from our system.   &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
+    * @param projectId The ID of the project. Created and returned when a project is created. 
     * @return void
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteProject(UNKNOWN_PARAMETER_NAME: ) : Unit {
-        val localVariableConfig = deleteProjectRequestConfig(UNKNOWN_PARAMETER_NAME = UNKNOWN_PARAMETER_NAME)
+    fun deleteProject(projectId: kotlin.String) : Unit {
+        val localVariableConfig = deleteProjectRequestConfig(projectId = projectId)
 
         val localVarResponse = request<Unit, Unit>(
             localVariableConfig
@@ -189,17 +189,17 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * To obtain the request config of the operation deleteProject
     *
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
+    * @param projectId The ID of the project. Created and returned when a project is created. 
     * @return RequestConfig
     */
-    fun deleteProjectRequestConfig(UNKNOWN_PARAMETER_NAME: ) : RequestConfig<Unit> {
+    fun deleteProjectRequestConfig(projectId: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
 
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/project/{project_id}".replace("{"+"project_id"+"}", "$UNKNOWN_PARAMETER_NAME"),
+            path = "/project/{project_id}".replace("{"+"project_id"+"}", "$projectId"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -209,8 +209,8 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * Delete a project version 
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Delete a version for the project. There must always be at least one version deployed, so you cannot delete the last remaining version of the project. This will auto-deploy the project and update its documentation, if necessary.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
-    * @param UNKNOWN_PARAMETER_NAME2 The version of the project. 
+    * @param projectId The ID of the project. Created and returned when a project is created. 
+    * @param version The version of the project. 
     * @return Project
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
@@ -218,8 +218,8 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteProjectVersion(UNKNOWN_PARAMETER_NAME: , UNKNOWN_PARAMETER_NAME2: ) : Project {
-        val localVariableConfig = deleteProjectVersionRequestConfig(UNKNOWN_PARAMETER_NAME = UNKNOWN_PARAMETER_NAME, UNKNOWN_PARAMETER_NAME2 = UNKNOWN_PARAMETER_NAME2)
+    fun deleteProjectVersion(projectId: kotlin.String, version: kotlin.String) : Project {
+        val localVariableConfig = deleteProjectVersionRequestConfig(projectId = projectId, version = version)
 
         val localVarResponse = request<Unit, Project>(
             localVariableConfig
@@ -243,18 +243,18 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * To obtain the request config of the operation deleteProjectVersion
     *
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
-    * @param UNKNOWN_PARAMETER_NAME2 The version of the project. 
+    * @param projectId The ID of the project. Created and returned when a project is created. 
+    * @param version The version of the project. 
     * @return RequestConfig
     */
-    fun deleteProjectVersionRequestConfig(UNKNOWN_PARAMETER_NAME: , UNKNOWN_PARAMETER_NAME2: ) : RequestConfig<Unit> {
+    fun deleteProjectVersionRequestConfig(projectId: kotlin.String, version: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
 
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/project/{project_id}/{version}".replace("{"+"project_id"+"}", "$UNKNOWN_PARAMETER_NAME").replace("{"+"version"+"}", "$UNKNOWN_PARAMETER_NAME2"),
+            path = "/project/{project_id}/{version}".replace("{"+"project_id"+"}", "$projectId").replace("{"+"version"+"}", "$version"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -264,7 +264,7 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * Get a project&#39;s metadata 
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Update your project&#39;s metadata. None of these parameters are required. Just provide the parameters that you would like to update.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
+    * @param projectId The ID of the project. Created and returned when a project is created. 
     * @return Project
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
@@ -272,8 +272,8 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getProject(UNKNOWN_PARAMETER_NAME: ) : Project {
-        val localVariableConfig = getProjectRequestConfig(UNKNOWN_PARAMETER_NAME = UNKNOWN_PARAMETER_NAME)
+    fun getProject(projectId: kotlin.String) : Project {
+        val localVariableConfig = getProjectRequestConfig(projectId = projectId)
 
         val localVarResponse = request<Unit, Project>(
             localVariableConfig
@@ -297,17 +297,17 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * To obtain the request config of the operation getProject
     *
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
+    * @param projectId The ID of the project. Created and returned when a project is created. 
     * @return RequestConfig
     */
-    fun getProjectRequestConfig(UNKNOWN_PARAMETER_NAME: ) : RequestConfig<Unit> {
+    fun getProjectRequestConfig(projectId: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/project/{project_id}".replace("{"+"project_id"+"}", "$UNKNOWN_PARAMETER_NAME"),
+            path = "/project/{project_id}".replace("{"+"project_id"+"}", "$projectId"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -317,7 +317,7 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * Get deployment status 
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Get the deployment status for the project after uploading the binary. Will be: &#x60;DEPLOYED&#x60; or NOT &#x60;DEPLOYED&#x60;.  After it is &#x60;DEPLOYED&#x60;, you can then make requests to your API.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
+    * @param projectId The ID of the project. Created and returned when a project is created. 
     * @return kotlin.Any
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
@@ -325,8 +325,8 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getProjectDeploymentStatus(UNKNOWN_PARAMETER_NAME: ) : kotlin.Any {
-        val localVariableConfig = getProjectDeploymentStatusRequestConfig(UNKNOWN_PARAMETER_NAME = UNKNOWN_PARAMETER_NAME)
+    fun getProjectDeploymentStatus(projectId: kotlin.String) : kotlin.Any {
+        val localVariableConfig = getProjectDeploymentStatusRequestConfig(projectId = projectId)
 
         val localVarResponse = request<Unit, kotlin.Any>(
             localVariableConfig
@@ -350,17 +350,17 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * To obtain the request config of the operation getProjectDeploymentStatus
     *
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
+    * @param projectId The ID of the project. Created and returned when a project is created. 
     * @return RequestConfig
     */
-    fun getProjectDeploymentStatusRequestConfig(UNKNOWN_PARAMETER_NAME: ) : RequestConfig<Unit> {
+    fun getProjectDeploymentStatusRequestConfig(projectId: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/project/{project_id}/deploy/status".replace("{"+"project_id"+"}", "$UNKNOWN_PARAMETER_NAME"),
+            path = "/project/{project_id}/deploy/status".replace("{"+"project_id"+"}", "$projectId"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -370,8 +370,8 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * Get the deployment URL 
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Get the deployment URL for the project.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
-    * @param UNKNOWN_BASE_TYPE  (optional)
+    * @param projectId The ID of the project. Created and returned when a project is created. 
+    * @param inlineObject  (optional)
     * @return ProjectDeploymentURL
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
@@ -379,10 +379,10 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getProjectDeploymentURL(UNKNOWN_PARAMETER_NAME: , UNKNOWN_BASE_TYPE: UNKNOWN_BASE_TYPE?) : ProjectDeploymentURL {
-        val localVariableConfig = getProjectDeploymentURLRequestConfig(UNKNOWN_PARAMETER_NAME = UNKNOWN_PARAMETER_NAME, UNKNOWN_BASE_TYPE = UNKNOWN_BASE_TYPE)
+    fun getProjectDeploymentURL(projectId: kotlin.String, inlineObject: InlineObject?) : ProjectDeploymentURL {
+        val localVariableConfig = getProjectDeploymentURLRequestConfig(projectId = projectId, inlineObject = inlineObject)
 
-        val localVarResponse = request<UNKNOWN_BASE_TYPE, ProjectDeploymentURL>(
+        val localVarResponse = request<InlineObject, ProjectDeploymentURL>(
             localVariableConfig
         )
 
@@ -404,18 +404,18 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * To obtain the request config of the operation getProjectDeploymentURL
     *
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
-    * @param UNKNOWN_BASE_TYPE  (optional)
+    * @param projectId The ID of the project. Created and returned when a project is created. 
+    * @param inlineObject  (optional)
     * @return RequestConfig
     */
-    fun getProjectDeploymentURLRequestConfig(UNKNOWN_PARAMETER_NAME: , UNKNOWN_BASE_TYPE: UNKNOWN_BASE_TYPE?) : RequestConfig<UNKNOWN_BASE_TYPE> {
-        val localVariableBody = UNKNOWN_BASE_TYPE
+    fun getProjectDeploymentURLRequestConfig(projectId: kotlin.String, inlineObject: InlineObject?) : RequestConfig<InlineObject> {
+        val localVariableBody = inlineObject
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/project/{project_id}/deploy/url".replace("{"+"project_id"+"}", "$UNKNOWN_PARAMETER_NAME"),
+            path = "/project/{project_id}/deploy/url".replace("{"+"project_id"+"}", "$projectId"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -425,7 +425,7 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * Get a project&#39;s stats 
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Get the usage stats for your mini-API.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
+    * @param projectId The ID of the project. Created and returned when a project is created. 
     * @return kotlin.collections.List<StatItem>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
@@ -433,8 +433,8 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getProjectStats(UNKNOWN_PARAMETER_NAME: ) : kotlin.collections.List<StatItem> {
-        val localVariableConfig = getProjectStatsRequestConfig(UNKNOWN_PARAMETER_NAME = UNKNOWN_PARAMETER_NAME)
+    fun getProjectStats(projectId: kotlin.String) : kotlin.collections.List<StatItem> {
+        val localVariableConfig = getProjectStatsRequestConfig(projectId = projectId)
 
         val localVarResponse = request<Unit, kotlin.collections.List<StatItem>>(
             localVariableConfig
@@ -458,17 +458,17 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * To obtain the request config of the operation getProjectStats
     *
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
+    * @param projectId The ID of the project. Created and returned when a project is created. 
     * @return RequestConfig
     */
-    fun getProjectStatsRequestConfig(UNKNOWN_PARAMETER_NAME: ) : RequestConfig<Unit> {
+    fun getProjectStatsRequestConfig(projectId: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/project/{project_id}/stats".replace("{"+"project_id"+"}", "$UNKNOWN_PARAMETER_NAME"),
+            path = "/project/{project_id}/stats".replace("{"+"project_id"+"}", "$projectId"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -529,7 +529,7 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * Update a project 
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Update your project&#39;s metadata. None of these parameters are required. Just provide the parameters that you would like to update.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
+    * @param projectId The ID of the project. Created and returned when a project is created. 
     * @param projectCreateRequest  (optional)
     * @return Project
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
@@ -538,8 +538,8 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateProject(UNKNOWN_PARAMETER_NAME: , projectCreateRequest: ProjectCreateRequest?) : Project {
-        val localVariableConfig = updateProjectRequestConfig(UNKNOWN_PARAMETER_NAME = UNKNOWN_PARAMETER_NAME, projectCreateRequest = projectCreateRequest)
+    fun updateProject(projectId: kotlin.String, projectCreateRequest: ProjectCreateRequest?) : Project {
+        val localVariableConfig = updateProjectRequestConfig(projectId = projectId, projectCreateRequest = projectCreateRequest)
 
         val localVarResponse = request<ProjectCreateRequest, Project>(
             localVariableConfig
@@ -563,18 +563,18 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * To obtain the request config of the operation updateProject
     *
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
+    * @param projectId The ID of the project. Created and returned when a project is created. 
     * @param projectCreateRequest  (optional)
     * @return RequestConfig
     */
-    fun updateProjectRequestConfig(UNKNOWN_PARAMETER_NAME: , projectCreateRequest: ProjectCreateRequest?) : RequestConfig<ProjectCreateRequest> {
+    fun updateProjectRequestConfig(projectId: kotlin.String, projectCreateRequest: ProjectCreateRequest?) : RequestConfig<ProjectCreateRequest> {
         val localVariableBody = projectCreateRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/project/{project_id}".replace("{"+"project_id"+"}", "$UNKNOWN_PARAMETER_NAME"),
+            path = "/project/{project_id}".replace("{"+"project_id"+"}", "$projectId"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -584,8 +584,8 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * Update the project&#39;s documentation 
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Update your project&#39;s documentation.   Your project&#39;s documentation can only represent *one* version of your API.  Thus, when you call this, the &#x60;current_documentation_version&#x60; attribute of your project is set to the version supplied in the call.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
-    * @param UNKNOWN_PARAMETER_NAME2 The version of the project. 
+    * @param projectId The ID of the project. Created and returned when a project is created. 
+    * @param version The version of the project. 
     * @return Project
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
@@ -593,8 +593,8 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateProjectDocumentation(UNKNOWN_PARAMETER_NAME: , UNKNOWN_PARAMETER_NAME2: ) : Project {
-        val localVariableConfig = updateProjectDocumentationRequestConfig(UNKNOWN_PARAMETER_NAME = UNKNOWN_PARAMETER_NAME, UNKNOWN_PARAMETER_NAME2 = UNKNOWN_PARAMETER_NAME2)
+    fun updateProjectDocumentation(projectId: kotlin.String, version: kotlin.String) : Project {
+        val localVariableConfig = updateProjectDocumentationRequestConfig(projectId = projectId, version = version)
 
         val localVarResponse = request<Unit, Project>(
             localVariableConfig
@@ -618,18 +618,18 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * To obtain the request config of the operation updateProjectDocumentation
     *
-    * @param UNKNOWN_PARAMETER_NAME The ID of the project. Created and returned when a project is created. 
-    * @param UNKNOWN_PARAMETER_NAME2 The version of the project. 
+    * @param projectId The ID of the project. Created and returned when a project is created. 
+    * @param version The version of the project. 
     * @return RequestConfig
     */
-    fun updateProjectDocumentationRequestConfig(UNKNOWN_PARAMETER_NAME: , UNKNOWN_PARAMETER_NAME2: ) : RequestConfig<Unit> {
+    fun updateProjectDocumentationRequestConfig(projectId: kotlin.String, version: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/project/{project_id}/{version}/documentation".replace("{"+"project_id"+"}", "$UNKNOWN_PARAMETER_NAME").replace("{"+"version"+"}", "$UNKNOWN_PARAMETER_NAME2"),
+            path = "/project/{project_id}/{version}/documentation".replace("{"+"project_id"+"}", "$projectId").replace("{"+"version"+"}", "$version"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody

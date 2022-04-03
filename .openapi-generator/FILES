@@ -38,6 +38,7 @@ docs/GetNFTListingResponse.md
 docs/GetPublicKeyRequest.md
 docs/GetSPLTokenResponse.md
 docs/Group.md
+docs/InlineObject.md
 docs/ListNFTsResponse.md
 docs/ListRequest.md
 docs/ListResponse.md
@@ -147,6 +148,7 @@ src/main/kotlin/org/openapitools/client/models/GetNFTListingResponse.kt
 src/main/kotlin/org/openapitools/client/models/GetPublicKeyRequest.kt
 src/main/kotlin/org/openapitools/client/models/GetSPLTokenResponse.kt
 src/main/kotlin/org/openapitools/client/models/Group.kt
+src/main/kotlin/org/openapitools/client/models/InlineObject.kt
 src/main/kotlin/org/openapitools/client/models/ListNFTsResponse.kt
 src/main/kotlin/org/openapitools/client/models/ListRequest.kt
 src/main/kotlin/org/openapitools/client/models/ListResponse.kt

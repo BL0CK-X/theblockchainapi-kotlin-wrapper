@@ -127,6 +127,7 @@ Class | Method | HTTP request | Description
  - [org.openapitools.client.models.GetPublicKeyRequest](docs/GetPublicKeyRequest.md)
  - [org.openapitools.client.models.GetSPLTokenResponse](docs/GetSPLTokenResponse.md)
  - [org.openapitools.client.models.Group](docs/Group.md)
+ - [org.openapitools.client.models.InlineObject](docs/InlineObject.md)
  - [org.openapitools.client.models.ListNFTsResponse](docs/ListNFTsResponse.md)
  - [org.openapitools.client.models.ListRequest](docs/ListRequest.md)
  - [org.openapitools.client.models.ListResponse](docs/ListResponse.md)
