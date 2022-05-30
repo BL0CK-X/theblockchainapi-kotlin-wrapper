@@ -67,7 +67,7 @@ Configure APISecretKey:
 
 <a name="getNameForBlockchainIdentifier"></a>
 # **getNameForBlockchainIdentifier**
-> InputName getNameForBlockchainIdentifier(blockchain, network, blockchainIdentifier, inputBlockchainIdentifier)
+> InputName getNameForBlockchainIdentifier(blockchain, network, inputBlockchainIdentifier)
 
 Get the name
 
@@ -82,10 +82,9 @@ Get the name
 val apiInstance = NameServiceApi()
 val blockchain : kotlin.String = blockchain_example // kotlin.String | The blockchain you want to use 
 val network : kotlin.String = ropsten // kotlin.String | The network of the blockchain you selected  - Solana: `devnet`, `mainnet-beta` - Ethereum: `ropsten`, `mainnet`  Defaults when not provided (not applicable to path parameters): - Solana: `devnet` - Ethereum: `ropsten`
-val blockchainIdentifier : kotlin.String = blockchainIdentifier_example // kotlin.String | The identifier of the token (e.g., `mint_address` on `Solana` or `token_address` on `Ethereum`) 
 val inputBlockchainIdentifier : InputBlockchainIdentifier =  // InputBlockchainIdentifier | 
 try {
-    val result : InputName = apiInstance.getNameForBlockchainIdentifier(blockchain, network, blockchainIdentifier, inputBlockchainIdentifier)
+    val result : InputName = apiInstance.getNameForBlockchainIdentifier(blockchain, network, inputBlockchainIdentifier)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling NameServiceApi#getNameForBlockchainIdentifier")
@@ -102,7 +101,6 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **blockchain** | **kotlin.String**| The blockchain you want to use  | [enum: ethereum, solana]
  **network** | **kotlin.String**| The network of the blockchain you selected  - Solana: &#x60;devnet&#x60;, &#x60;mainnet-beta&#x60; - Ethereum: &#x60;ropsten&#x60;, &#x60;mainnet&#x60;  Defaults when not provided (not applicable to path parameters): - Solana: &#x60;devnet&#x60; - Ethereum: &#x60;ropsten&#x60; |
- **blockchainIdentifier** | **kotlin.String**| The identifier of the token (e.g., &#x60;mint_address&#x60; on &#x60;Solana&#x60; or &#x60;token_address&#x60; on &#x60;Ethereum&#x60;)  | [enum: ethereum, solana]
  **inputBlockchainIdentifier** | [**InputBlockchainIdentifier**](InputBlockchainIdentifier.md)|  | [optional]
 
 ### Return type

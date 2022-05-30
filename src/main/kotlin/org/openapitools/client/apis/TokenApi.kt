@@ -214,7 +214,7 @@ class TokenApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
         localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
-            method = RequestMethod.POST,
+            method = RequestMethod.GET,
             path = "/{blockchain}/{network}/all_tokens".replace("{"+"blockchain"+"}", "$blockchain").replace("{"+"network"+"}", "$network"),
             query = localVariableQuery,
             headers = localVariableHeaders,

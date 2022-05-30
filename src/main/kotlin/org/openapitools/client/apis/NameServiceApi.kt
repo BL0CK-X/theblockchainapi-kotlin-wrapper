@@ -144,20 +144,10 @@ class NameServiceApi(basePath: kotlin.String = defaultBasePath) : ApiClient(base
      }
 
     /**
-     * enum for parameter blockchainIdentifier
-     */
-     enum class BlockchainIdentifier_getNameForBlockchainIdentifier(val value: kotlin.String) {
-         @Json(name = "ethereum") ethereum("ethereum"),
-         @Json(name = "solana") solana("solana"),
-         ;
-     }
-
-    /**
     * Get the name
     * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/blockchain-api\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript) [Coming Soon]&lt;/a&gt;.      Get the name from a blockchain identifier.  e.g., Input &#x60;0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045&#x60; and output &#x60;vitalik.eth&#x60;  &#x60;Cost: 0.25 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param blockchain The blockchain you want to use  
     * @param network The network of the blockchain you selected  - Solana: &#x60;devnet&#x60;, &#x60;mainnet-beta&#x60; - Ethereum: &#x60;ropsten&#x60;, &#x60;mainnet&#x60;  Defaults when not provided (not applicable to path parameters): - Solana: &#x60;devnet&#x60; - Ethereum: &#x60;ropsten&#x60; 
-    * @param blockchainIdentifier The identifier of the token (e.g., &#x60;mint_address&#x60; on &#x60;Solana&#x60; or &#x60;token_address&#x60; on &#x60;Ethereum&#x60;)  
     * @param inputBlockchainIdentifier  (optional)
     * @return InputName
     * @throws IllegalStateException If the request is not correctly configured
@@ -168,8 +158,8 @@ class NameServiceApi(basePath: kotlin.String = defaultBasePath) : ApiClient(base
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getNameForBlockchainIdentifier(blockchain: Blockchain_getNameForBlockchainIdentifier, network: kotlin.String, blockchainIdentifier: BlockchainIdentifier_getNameForBlockchainIdentifier, inputBlockchainIdentifier: InputBlockchainIdentifier?) : InputName {
-        val localVarResponse = getNameForBlockchainIdentifierWithHttpInfo(blockchain = blockchain, network = network, blockchainIdentifier = blockchainIdentifier, inputBlockchainIdentifier = inputBlockchainIdentifier)
+    fun getNameForBlockchainIdentifier(blockchain: Blockchain_getNameForBlockchainIdentifier, network: kotlin.String, inputBlockchainIdentifier: InputBlockchainIdentifier?) : InputName {
+        val localVarResponse = getNameForBlockchainIdentifierWithHttpInfo(blockchain = blockchain, network = network, inputBlockchainIdentifier = inputBlockchainIdentifier)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as InputName
@@ -191,7 +181,6 @@ class NameServiceApi(basePath: kotlin.String = defaultBasePath) : ApiClient(base
     * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/blockchain-api\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript) [Coming Soon]&lt;/a&gt;.      Get the name from a blockchain identifier.  e.g., Input &#x60;0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045&#x60; and output &#x60;vitalik.eth&#x60;  &#x60;Cost: 0.25 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param blockchain The blockchain you want to use  
     * @param network The network of the blockchain you selected  - Solana: &#x60;devnet&#x60;, &#x60;mainnet-beta&#x60; - Ethereum: &#x60;ropsten&#x60;, &#x60;mainnet&#x60;  Defaults when not provided (not applicable to path parameters): - Solana: &#x60;devnet&#x60; - Ethereum: &#x60;ropsten&#x60; 
-    * @param blockchainIdentifier The identifier of the token (e.g., &#x60;mint_address&#x60; on &#x60;Solana&#x60; or &#x60;token_address&#x60; on &#x60;Ethereum&#x60;)  
     * @param inputBlockchainIdentifier  (optional)
     * @return ApiResponse<InputName?>
     * @throws IllegalStateException If the request is not correctly configured
@@ -199,8 +188,8 @@ class NameServiceApi(basePath: kotlin.String = defaultBasePath) : ApiClient(base
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getNameForBlockchainIdentifierWithHttpInfo(blockchain: Blockchain_getNameForBlockchainIdentifier, network: kotlin.String, blockchainIdentifier: BlockchainIdentifier_getNameForBlockchainIdentifier, inputBlockchainIdentifier: InputBlockchainIdentifier?) : ApiResponse<InputName?> {
-        val localVariableConfig = getNameForBlockchainIdentifierRequestConfig(blockchain = blockchain, network = network, blockchainIdentifier = blockchainIdentifier, inputBlockchainIdentifier = inputBlockchainIdentifier)
+    fun getNameForBlockchainIdentifierWithHttpInfo(blockchain: Blockchain_getNameForBlockchainIdentifier, network: kotlin.String, inputBlockchainIdentifier: InputBlockchainIdentifier?) : ApiResponse<InputName?> {
+        val localVariableConfig = getNameForBlockchainIdentifierRequestConfig(blockchain = blockchain, network = network, inputBlockchainIdentifier = inputBlockchainIdentifier)
 
         return request<InputBlockchainIdentifier, InputName>(
             localVariableConfig
@@ -212,11 +201,10 @@ class NameServiceApi(basePath: kotlin.String = defaultBasePath) : ApiClient(base
     *
     * @param blockchain The blockchain you want to use  
     * @param network The network of the blockchain you selected  - Solana: &#x60;devnet&#x60;, &#x60;mainnet-beta&#x60; - Ethereum: &#x60;ropsten&#x60;, &#x60;mainnet&#x60;  Defaults when not provided (not applicable to path parameters): - Solana: &#x60;devnet&#x60; - Ethereum: &#x60;ropsten&#x60; 
-    * @param blockchainIdentifier The identifier of the token (e.g., &#x60;mint_address&#x60; on &#x60;Solana&#x60; or &#x60;token_address&#x60; on &#x60;Ethereum&#x60;)  
     * @param inputBlockchainIdentifier  (optional)
     * @return RequestConfig
     */
-    fun getNameForBlockchainIdentifierRequestConfig(blockchain: Blockchain_getNameForBlockchainIdentifier, network: kotlin.String, blockchainIdentifier: BlockchainIdentifier_getNameForBlockchainIdentifier, inputBlockchainIdentifier: InputBlockchainIdentifier?) : RequestConfig<InputBlockchainIdentifier> {
+    fun getNameForBlockchainIdentifierRequestConfig(blockchain: Blockchain_getNameForBlockchainIdentifier, network: kotlin.String, inputBlockchainIdentifier: InputBlockchainIdentifier?) : RequestConfig<InputBlockchainIdentifier> {
         val localVariableBody = inputBlockchainIdentifier
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -225,7 +213,7 @@ class NameServiceApi(basePath: kotlin.String = defaultBasePath) : ApiClient(base
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/{blockchain}/{network}/name_service/blockchain_identifier_to_name".replace("{"+"blockchain"+"}", "$blockchain").replace("{"+"network"+"}", "$network").replace("{"+"blockchain_identifier"+"}", "$blockchainIdentifier"),
+            path = "/{blockchain}/{network}/name_service/blockchain_identifier_to_name".replace("{"+"blockchain"+"}", "$blockchain").replace("{"+"network"+"}", "$network"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
