@@ -20,10 +20,15 @@
 
 package org.openapitools.client.apis
 
+import java.io.IOException
+
 import org.openapitools.client.models.Endpoint
 import org.openapitools.client.models.EndpointReference
 
+import com.squareup.moshi.Json
+
 import org.openapitools.client.infrastructure.ApiClient
+import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -39,7 +44,7 @@ class EndpointApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePat
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("org.openapitools.client.baseUrl", "https://api.blockchainapi.com/v1")
+            System.getProperties().getProperty(ApiClient.baseUrlKey, "https://api.blockchainapi.com/v1")
         }
     }
 
@@ -48,17 +53,15 @@ class EndpointApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePat
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Deletes an endpoint from a project. This endpoint removes the endpoint from the project&#39;s documentation. However, this does un-deploy the endpoint. To do so, you must &lt;a href&#x3D;\&quot;#operation/deployProject\&quot;&gt;deploy the project&lt;/a&gt;.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param endpointReference  (optional)
     * @return void
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun deleteEndpoint(endpointReference: EndpointReference?) : Unit {
-        val localVariableConfig = deleteEndpointRequestConfig(endpointReference = endpointReference)
-
-        val localVarResponse = request<EndpointReference, Unit>(
-            localVariableConfig
-        )
+        val localVarResponse = deleteEndpointWithHttpInfo(endpointReference = endpointReference)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -76,6 +79,23 @@ class EndpointApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePat
     }
 
     /**
+    * Delete an endpoint 
+    * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Deletes an endpoint from a project. This endpoint removes the endpoint from the project&#39;s documentation. However, this does un-deploy the endpoint. To do so, you must &lt;a href&#x3D;\&quot;#operation/deployProject\&quot;&gt;deploy the project&lt;/a&gt;.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param endpointReference  (optional)
+    * @return ApiResponse<Unit?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Throws(IllegalStateException::class, IOException::class)
+    fun deleteEndpointWithHttpInfo(endpointReference: EndpointReference?) : ApiResponse<Unit?> {
+        val localVariableConfig = deleteEndpointRequestConfig(endpointReference = endpointReference)
+
+        return request<EndpointReference, Unit>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation deleteEndpoint
     *
     * @param endpointReference  (optional)
@@ -85,7 +105,8 @@ class EndpointApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePat
         val localVariableBody = endpointReference
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-
+        localVariableHeaders["Content-Type"] = "application/json"
+        
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/endpoint/delete",
@@ -100,18 +121,16 @@ class EndpointApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePat
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Get an endpoint&#39;s metadata from a project.   &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param endpointReference  (optional)
     * @return Endpoint
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getEndpoint(endpointReference: EndpointReference?) : Endpoint {
-        val localVariableConfig = getEndpointRequestConfig(endpointReference = endpointReference)
-
-        val localVarResponse = request<EndpointReference, Endpoint>(
-            localVariableConfig
-        )
+        val localVarResponse = getEndpointWithHttpInfo(endpointReference = endpointReference)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as Endpoint
@@ -129,6 +148,24 @@ class EndpointApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePat
     }
 
     /**
+    * Get an endpoint&#39;s metadata 
+    * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Get an endpoint&#39;s metadata from a project.   &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param endpointReference  (optional)
+    * @return ApiResponse<Endpoint?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getEndpointWithHttpInfo(endpointReference: EndpointReference?) : ApiResponse<Endpoint?> {
+        val localVariableConfig = getEndpointRequestConfig(endpointReference = endpointReference)
+
+        return request<EndpointReference, Endpoint>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation getEndpoint
     *
     * @param endpointReference  (optional)
@@ -138,6 +175,8 @@ class EndpointApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePat
         val localVariableBody = endpointReference
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,
@@ -152,18 +191,16 @@ class EndpointApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePat
     * List all endpoints 
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  List all endpoints that you have added under your account.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @return kotlin.collections.List<Endpoint>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun listEndpoints() : kotlin.collections.List<Endpoint> {
-        val localVariableConfig = listEndpointsRequestConfig()
-
-        val localVarResponse = request<Unit, kotlin.collections.List<Endpoint>>(
-            localVariableConfig
-        )
+        val localVarResponse = listEndpointsWithHttpInfo()
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<Endpoint>
@@ -181,6 +218,23 @@ class EndpointApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePat
     }
 
     /**
+    * List all endpoints 
+    * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  List all endpoints that you have added under your account.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @return ApiResponse<kotlin.collections.List<Endpoint>?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun listEndpointsWithHttpInfo() : ApiResponse<kotlin.collections.List<Endpoint>?> {
+        val localVariableConfig = listEndpointsRequestConfig()
+
+        return request<Unit, kotlin.collections.List<Endpoint>>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation listEndpoints
     *
     * @return RequestConfig
@@ -189,6 +243,7 @@ class EndpointApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePat
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -204,18 +259,16 @@ class EndpointApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePat
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Create or update an &#x60;endpoint&#x60; for a &#x60;project&#x60;.   An &#x60;endpoint&#x60; is a function that is a part of a mini-API &#x60;project&#x60;.  This endpoint adds the &#x60;endpoint&#x60; to the &#x60;project&#x60;&#39;s documentation. However, this does not deploy the &#x60;endpoint&#x60;. To do so, you must &lt;a href&#x3D;\&quot;#operation/deployProject\&quot;&gt;deploy the project&lt;/a&gt;.  All attributes except &#x60;group_name&#x60; are required if **creating** an &#x60;endpoint&#x60;.  Only &#x60;path&#x60;, &#x60;project_id&#x60;, and &#x60;version&#x60; are required if **updating** an &#x60;endpoint&#x60;.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param endpoint  (optional)
     * @return Endpoint
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun setEndpoint(endpoint: Endpoint?) : Endpoint {
-        val localVariableConfig = setEndpointRequestConfig(endpoint = endpoint)
-
-        val localVarResponse = request<Endpoint, Endpoint>(
-            localVariableConfig
-        )
+        val localVarResponse = setEndpointWithHttpInfo(endpoint = endpoint)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as Endpoint
@@ -233,6 +286,24 @@ class EndpointApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePat
     }
 
     /**
+    * Create / update an endpoint 
+    * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Create or update an &#x60;endpoint&#x60; for a &#x60;project&#x60;.   An &#x60;endpoint&#x60; is a function that is a part of a mini-API &#x60;project&#x60;.  This endpoint adds the &#x60;endpoint&#x60; to the &#x60;project&#x60;&#39;s documentation. However, this does not deploy the &#x60;endpoint&#x60;. To do so, you must &lt;a href&#x3D;\&quot;#operation/deployProject\&quot;&gt;deploy the project&lt;/a&gt;.  All attributes except &#x60;group_name&#x60; are required if **creating** an &#x60;endpoint&#x60;.  Only &#x60;path&#x60;, &#x60;project_id&#x60;, and &#x60;version&#x60; are required if **updating** an &#x60;endpoint&#x60;.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param endpoint  (optional)
+    * @return ApiResponse<Endpoint?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun setEndpointWithHttpInfo(endpoint: Endpoint?) : ApiResponse<Endpoint?> {
+        val localVariableConfig = setEndpointRequestConfig(endpoint = endpoint)
+
+        return request<Endpoint, Endpoint>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation setEndpoint
     *
     * @param endpoint  (optional)
@@ -242,6 +313,8 @@ class EndpointApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePat
         val localVariableBody = endpoint
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,

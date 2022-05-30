@@ -20,13 +20,18 @@
 
 package org.openapitools.client.apis
 
+import java.io.IOException
+
 import org.openapitools.client.models.InlineObject
 import org.openapitools.client.models.Project
 import org.openapitools.client.models.ProjectCreateRequest
 import org.openapitools.client.models.ProjectDeploymentURL
 import org.openapitools.client.models.StatItem
 
+import com.squareup.moshi.Json
+
 import org.openapitools.client.infrastructure.ApiClient
+import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -42,7 +47,7 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("org.openapitools.client.baseUrl", "https://api.blockchainapi.com/v1")
+            System.getProperties().getProperty(ApiClient.baseUrlKey, "https://api.blockchainapi.com/v1")
         }
     }
 
@@ -51,18 +56,16 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  A project is an entire mini-API.  When you create a project, this initializes the project in our database and the API documentation for the project.  After initialization, you can &lt;a href&#x3D;\&quot;#operation/createEndpoint\&quot;&gt;add endpoints&lt;/a&gt; to the documentation and deploy the project&#39;s mini-API to our servers. Learn more &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param projectCreateRequest  (optional)
     * @return Project
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun createProject(projectCreateRequest: ProjectCreateRequest?) : Project {
-        val localVariableConfig = createProjectRequestConfig(projectCreateRequest = projectCreateRequest)
-
-        val localVarResponse = request<ProjectCreateRequest, Project>(
-            localVariableConfig
-        )
+        val localVarResponse = createProjectWithHttpInfo(projectCreateRequest = projectCreateRequest)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as Project
@@ -80,6 +83,24 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
+    * Create a project 
+    * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  A project is an entire mini-API.  When you create a project, this initializes the project in our database and the API documentation for the project.  After initialization, you can &lt;a href&#x3D;\&quot;#operation/createEndpoint\&quot;&gt;add endpoints&lt;/a&gt; to the documentation and deploy the project&#39;s mini-API to our servers. Learn more &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param projectCreateRequest  (optional)
+    * @return ApiResponse<Project?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun createProjectWithHttpInfo(projectCreateRequest: ProjectCreateRequest?) : ApiResponse<Project?> {
+        val localVariableConfig = createProjectRequestConfig(projectCreateRequest = projectCreateRequest)
+
+        return request<ProjectCreateRequest, Project>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation createProject
     *
     * @param projectCreateRequest  (optional)
@@ -89,6 +110,8 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
         val localVariableBody = projectCreateRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,
@@ -105,18 +128,16 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     * @param projectId The ID of the project. Created and returned when a project is created. 
     * @param version The version of the project. 
     * @return Project
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun createProjectVersion(projectId: kotlin.String, version: kotlin.String) : Project {
-        val localVariableConfig = createProjectVersionRequestConfig(projectId = projectId, version = version)
-
-        val localVarResponse = request<Unit, Project>(
-            localVariableConfig
-        )
+        val localVarResponse = createProjectVersionWithHttpInfo(projectId = projectId, version = version)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as Project
@@ -134,6 +155,25 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
+    * Create a new project version 
+    * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Create a new version for the project. The version must be higher than all existing versions. This will duplicate the existing project&#39;s latest version and auto-deploy it. To update these endpoints, simply redeploy on this project&#39;s versions.  When a project is first created, it uses the default \&quot;0.0.1\&quot; version.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param projectId The ID of the project. Created and returned when a project is created. 
+    * @param version The version of the project. 
+    * @return ApiResponse<Project?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun createProjectVersionWithHttpInfo(projectId: kotlin.String, version: kotlin.String) : ApiResponse<Project?> {
+        val localVariableConfig = createProjectVersionRequestConfig(projectId = projectId, version = version)
+
+        return request<Unit, Project>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation createProjectVersion
     *
     * @param projectId The ID of the project. Created and returned when a project is created. 
@@ -144,6 +184,7 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,
@@ -159,17 +200,15 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Deletes a project. This will remove the mini-API entirely from our system.   &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param projectId The ID of the project. Created and returned when a project is created. 
     * @return void
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun deleteProject(projectId: kotlin.String) : Unit {
-        val localVariableConfig = deleteProjectRequestConfig(projectId = projectId)
-
-        val localVarResponse = request<Unit, Unit>(
-            localVariableConfig
-        )
+        val localVarResponse = deleteProjectWithHttpInfo(projectId = projectId)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -187,6 +226,23 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
+    * Delete a project 
+    * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Deletes a project. This will remove the mini-API entirely from our system.   &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param projectId The ID of the project. Created and returned when a project is created. 
+    * @return ApiResponse<Unit?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Throws(IllegalStateException::class, IOException::class)
+    fun deleteProjectWithHttpInfo(projectId: kotlin.String) : ApiResponse<Unit?> {
+        val localVariableConfig = deleteProjectRequestConfig(projectId = projectId)
+
+        return request<Unit, Unit>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation deleteProject
     *
     * @param projectId The ID of the project. Created and returned when a project is created. 
@@ -196,7 +252,7 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-
+        
         return RequestConfig(
             method = RequestMethod.DELETE,
             path = "/project/{project_id}".replace("{"+"project_id"+"}", "$projectId"),
@@ -212,18 +268,16 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     * @param projectId The ID of the project. Created and returned when a project is created. 
     * @param version The version of the project. 
     * @return Project
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun deleteProjectVersion(projectId: kotlin.String, version: kotlin.String) : Project {
-        val localVariableConfig = deleteProjectVersionRequestConfig(projectId = projectId, version = version)
-
-        val localVarResponse = request<Unit, Project>(
-            localVariableConfig
-        )
+        val localVarResponse = deleteProjectVersionWithHttpInfo(projectId = projectId, version = version)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as Project
@@ -241,6 +295,25 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
+    * Delete a project version 
+    * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Delete a version for the project. There must always be at least one version deployed, so you cannot delete the last remaining version of the project. This will auto-deploy the project and update its documentation, if necessary.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param projectId The ID of the project. Created and returned when a project is created. 
+    * @param version The version of the project. 
+    * @return ApiResponse<Project?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun deleteProjectVersionWithHttpInfo(projectId: kotlin.String, version: kotlin.String) : ApiResponse<Project?> {
+        val localVariableConfig = deleteProjectVersionRequestConfig(projectId = projectId, version = version)
+
+        return request<Unit, Project>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation deleteProjectVersion
     *
     * @param projectId The ID of the project. Created and returned when a project is created. 
@@ -251,6 +324,7 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.DELETE,
@@ -266,18 +340,16 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Update your project&#39;s metadata. None of these parameters are required. Just provide the parameters that you would like to update.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param projectId The ID of the project. Created and returned when a project is created. 
     * @return Project
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getProject(projectId: kotlin.String) : Project {
-        val localVariableConfig = getProjectRequestConfig(projectId = projectId)
-
-        val localVarResponse = request<Unit, Project>(
-            localVariableConfig
-        )
+        val localVarResponse = getProjectWithHttpInfo(projectId = projectId)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as Project
@@ -295,6 +367,24 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
+    * Get a project&#39;s metadata 
+    * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Update your project&#39;s metadata. None of these parameters are required. Just provide the parameters that you would like to update.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param projectId The ID of the project. Created and returned when a project is created. 
+    * @return ApiResponse<Project?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getProjectWithHttpInfo(projectId: kotlin.String) : ApiResponse<Project?> {
+        val localVariableConfig = getProjectRequestConfig(projectId = projectId)
+
+        return request<Unit, Project>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation getProject
     *
     * @param projectId The ID of the project. Created and returned when a project is created. 
@@ -304,6 +394,7 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -319,18 +410,16 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Get the deployment status for the project after uploading the binary. Will be: &#x60;DEPLOYED&#x60; or NOT &#x60;DEPLOYED&#x60;.  After it is &#x60;DEPLOYED&#x60;, you can then make requests to your API.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param projectId The ID of the project. Created and returned when a project is created. 
     * @return kotlin.Any
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getProjectDeploymentStatus(projectId: kotlin.String) : kotlin.Any {
-        val localVariableConfig = getProjectDeploymentStatusRequestConfig(projectId = projectId)
-
-        val localVarResponse = request<Unit, kotlin.Any>(
-            localVariableConfig
-        )
+        val localVarResponse = getProjectDeploymentStatusWithHttpInfo(projectId = projectId)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.Any
@@ -348,6 +437,24 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
+    * Get deployment status 
+    * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Get the deployment status for the project after uploading the binary. Will be: &#x60;DEPLOYED&#x60; or NOT &#x60;DEPLOYED&#x60;.  After it is &#x60;DEPLOYED&#x60;, you can then make requests to your API.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param projectId The ID of the project. Created and returned when a project is created. 
+    * @return ApiResponse<kotlin.Any?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getProjectDeploymentStatusWithHttpInfo(projectId: kotlin.String) : ApiResponse<kotlin.Any?> {
+        val localVariableConfig = getProjectDeploymentStatusRequestConfig(projectId = projectId)
+
+        return request<Unit, kotlin.Any>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation getProjectDeploymentStatus
     *
     * @param projectId The ID of the project. Created and returned when a project is created. 
@@ -357,6 +464,7 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,
@@ -373,18 +481,16 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     * @param projectId The ID of the project. Created and returned when a project is created. 
     * @param inlineObject  (optional)
     * @return ProjectDeploymentURL
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getProjectDeploymentURL(projectId: kotlin.String, inlineObject: InlineObject?) : ProjectDeploymentURL {
-        val localVariableConfig = getProjectDeploymentURLRequestConfig(projectId = projectId, inlineObject = inlineObject)
-
-        val localVarResponse = request<InlineObject, ProjectDeploymentURL>(
-            localVariableConfig
-        )
+        val localVarResponse = getProjectDeploymentURLWithHttpInfo(projectId = projectId, inlineObject = inlineObject)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as ProjectDeploymentURL
@@ -402,6 +508,25 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
+    * Get the deployment URL 
+    * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Get the deployment URL for the project.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param projectId The ID of the project. Created and returned when a project is created. 
+    * @param inlineObject  (optional)
+    * @return ApiResponse<ProjectDeploymentURL?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getProjectDeploymentURLWithHttpInfo(projectId: kotlin.String, inlineObject: InlineObject?) : ApiResponse<ProjectDeploymentURL?> {
+        val localVariableConfig = getProjectDeploymentURLRequestConfig(projectId = projectId, inlineObject = inlineObject)
+
+        return request<InlineObject, ProjectDeploymentURL>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation getProjectDeploymentURL
     *
     * @param projectId The ID of the project. Created and returned when a project is created. 
@@ -412,6 +537,8 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
         val localVariableBody = inlineObject
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,
@@ -427,18 +554,16 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Get the usage stats for your mini-API.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param projectId The ID of the project. Created and returned when a project is created. 
     * @return kotlin.collections.List<StatItem>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getProjectStats(projectId: kotlin.String) : kotlin.collections.List<StatItem> {
-        val localVariableConfig = getProjectStatsRequestConfig(projectId = projectId)
-
-        val localVarResponse = request<Unit, kotlin.collections.List<StatItem>>(
-            localVariableConfig
-        )
+        val localVarResponse = getProjectStatsWithHttpInfo(projectId = projectId)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<StatItem>
@@ -456,6 +581,24 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
+    * Get a project&#39;s stats 
+    * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Get the usage stats for your mini-API.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param projectId The ID of the project. Created and returned when a project is created. 
+    * @return ApiResponse<kotlin.collections.List<StatItem>?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getProjectStatsWithHttpInfo(projectId: kotlin.String) : ApiResponse<kotlin.collections.List<StatItem>?> {
+        val localVariableConfig = getProjectStatsRequestConfig(projectId = projectId)
+
+        return request<Unit, kotlin.collections.List<StatItem>>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation getProjectStats
     *
     * @param projectId The ID of the project. Created and returned when a project is created. 
@@ -465,6 +608,7 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -479,18 +623,16 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     * List projects 
     * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  List all projects associated with your account.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @return kotlin.collections.List<Project>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun listProjects() : kotlin.collections.List<Project> {
-        val localVariableConfig = listProjectsRequestConfig()
-
-        val localVarResponse = request<Unit, kotlin.collections.List<Project>>(
-            localVariableConfig
-        )
+        val localVarResponse = listProjectsWithHttpInfo()
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<Project>
@@ -508,6 +650,23 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
+    * List projects 
+    * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  List all projects associated with your account.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @return ApiResponse<kotlin.collections.List<Project>?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun listProjectsWithHttpInfo() : ApiResponse<kotlin.collections.List<Project>?> {
+        val localVariableConfig = listProjectsRequestConfig()
+
+        return request<Unit, kotlin.collections.List<Project>>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation listProjects
     *
     * @return RequestConfig
@@ -516,6 +675,7 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -532,18 +692,16 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     * @param projectId The ID of the project. Created and returned when a project is created. 
     * @param projectCreateRequest  (optional)
     * @return Project
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun updateProject(projectId: kotlin.String, projectCreateRequest: ProjectCreateRequest?) : Project {
-        val localVariableConfig = updateProjectRequestConfig(projectId = projectId, projectCreateRequest = projectCreateRequest)
-
-        val localVarResponse = request<ProjectCreateRequest, Project>(
-            localVariableConfig
-        )
+        val localVarResponse = updateProjectWithHttpInfo(projectId = projectId, projectCreateRequest = projectCreateRequest)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as Project
@@ -561,6 +719,25 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
+    * Update a project 
+    * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Update your project&#39;s metadata. None of these parameters are required. Just provide the parameters that you would like to update.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param projectId The ID of the project. Created and returned when a project is created. 
+    * @param projectCreateRequest  (optional)
+    * @return ApiResponse<Project?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun updateProjectWithHttpInfo(projectId: kotlin.String, projectCreateRequest: ProjectCreateRequest?) : ApiResponse<Project?> {
+        val localVariableConfig = updateProjectRequestConfig(projectId = projectId, projectCreateRequest = projectCreateRequest)
+
+        return request<ProjectCreateRequest, Project>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation updateProject
     *
     * @param projectId The ID of the project. Created and returned when a project is created. 
@@ -571,6 +748,8 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
         val localVariableBody = projectCreateRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,
@@ -587,18 +766,16 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     * @param projectId The ID of the project. Created and returned when a project is created. 
     * @param version The version of the project. 
     * @return Project
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun updateProjectDocumentation(projectId: kotlin.String, version: kotlin.String) : Project {
-        val localVariableConfig = updateProjectDocumentationRequestConfig(projectId = projectId, version = version)
-
-        val localVarResponse = request<Unit, Project>(
-            localVariableConfig
-        )
+        val localVarResponse = updateProjectDocumentationWithHttpInfo(projectId = projectId, version = version)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as Project
@@ -616,6 +793,25 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     }
 
     /**
+    * Update the project&#39;s documentation 
+    * A complete example and walkthrough of the program can be found &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/api-developer-program\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Update your project&#39;s documentation.   Your project&#39;s documentation can only represent *one* version of your API.  Thus, when you call this, the &#x60;current_documentation_version&#x60; attribute of your project is set to the version supplied in the call.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param projectId The ID of the project. Created and returned when a project is created. 
+    * @param version The version of the project. 
+    * @return ApiResponse<Project?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun updateProjectDocumentationWithHttpInfo(projectId: kotlin.String, version: kotlin.String) : ApiResponse<Project?> {
+        val localVariableConfig = updateProjectDocumentationRequestConfig(projectId = projectId, version = version)
+
+        return request<Unit, Project>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation updateProjectDocumentation
     *
     * @param projectId The ID of the project. Created and returned when a project is created. 
@@ -626,6 +822,7 @@ class ProjectApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,

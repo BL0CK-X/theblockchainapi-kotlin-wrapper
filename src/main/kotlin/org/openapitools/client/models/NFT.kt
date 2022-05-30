@@ -20,6 +20,7 @@
 
 package org.openapitools.client.models
 
+import org.openapitools.client.models.NFTCollection
 import org.openapitools.client.models.NFTData
 
 import com.squareup.moshi.Json
@@ -35,6 +36,11 @@ import com.squareup.moshi.Json
  * @param sellerFeeBasisPoints 
  * @param mintSecretRecoveryPhrase 
  * @param explorerUrl 
+ * @param metadataAccount The metadata account of the NFT 
+ * @param editionNonce 
+ * @param tokenStandard 
+ * @param collection 
+ * @param uses 
  */
 
 data class NFT (
@@ -63,7 +69,23 @@ data class NFT (
     val mintSecretRecoveryPhrase: kotlin.String? = null,
 
     @Json(name = "explorer_url")
-    val explorerUrl: kotlin.String? = null
+    val explorerUrl: kotlin.String? = null,
+
+    /* The metadata account of the NFT  */
+    @Json(name = "metadata_account")
+    val metadataAccount: kotlin.String? = null,
+
+    @Json(name = "edition_nonce")
+    val editionNonce: java.math.BigDecimal? = null,
+
+    @Json(name = "token_standard")
+    val tokenStandard: java.math.BigDecimal? = null,
+
+    @Json(name = "collection")
+    val collection: NFTCollection? = null,
+
+    @Json(name = "uses")
+    val uses: java.math.BigDecimal? = null
 
 )
 

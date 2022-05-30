@@ -20,6 +20,8 @@
 
 package org.openapitools.client.apis
 
+import java.io.IOException
+
 import org.openapitools.client.models.CandyMachineSearchRequest
 import org.openapitools.client.models.CreateTestCandyMachineRequest
 import org.openapitools.client.models.CreateTestCandyMachineResponse
@@ -31,7 +33,10 @@ import org.openapitools.client.models.MintNFTErrorResponse
 import org.openapitools.client.models.MintNFTRequest
 import org.openapitools.client.models.MintNFTResponse
 
+import com.squareup.moshi.Json
+
 import org.openapitools.client.infrastructure.ApiClient
+import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -47,7 +52,7 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("org.openapitools.client.baseUrl", "https://api.blockchainapi.com/v1")
+            System.getProperties().getProperty(ApiClient.baseUrlKey, "https://api.blockchainapi.com/v1")
         }
     }
 
@@ -56,18 +61,16 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
     * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-candy-machine/create-test-candy-machine\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.   Use this endpoint to create a test candy machine so that you can test your minting bot.  &#x60;Cost: 1 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param createTestCandyMachineRequest  (optional)
     * @return CreateTestCandyMachineResponse
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun solanaCreateTestCandyMachine(createTestCandyMachineRequest: CreateTestCandyMachineRequest?) : CreateTestCandyMachineResponse {
-        val localVariableConfig = solanaCreateTestCandyMachineRequestConfig(createTestCandyMachineRequest = createTestCandyMachineRequest)
-
-        val localVarResponse = request<CreateTestCandyMachineRequest, CreateTestCandyMachineResponse>(
-            localVariableConfig
-        )
+        val localVarResponse = solanaCreateTestCandyMachineWithHttpInfo(createTestCandyMachineRequest = createTestCandyMachineRequest)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as CreateTestCandyMachineResponse
@@ -85,6 +88,24 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
     }
 
     /**
+    * Create a test CM
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-candy-machine/create-test-candy-machine\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.   Use this endpoint to create a test candy machine so that you can test your minting bot.  &#x60;Cost: 1 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param createTestCandyMachineRequest  (optional)
+    * @return ApiResponse<CreateTestCandyMachineResponse?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaCreateTestCandyMachineWithHttpInfo(createTestCandyMachineRequest: CreateTestCandyMachineRequest?) : ApiResponse<CreateTestCandyMachineResponse?> {
+        val localVariableConfig = solanaCreateTestCandyMachineRequestConfig(createTestCandyMachineRequest = createTestCandyMachineRequest)
+
+        return request<CreateTestCandyMachineRequest, CreateTestCandyMachineResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaCreateTestCandyMachine
     *
     * @param createTestCandyMachineRequest  (optional)
@@ -94,6 +115,8 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
         val localVariableBody = createTestCandyMachineRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,
@@ -105,23 +128,30 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
     }
 
     /**
+     * enum for parameter network
+     */
+     enum class Network_solanaGetAllNFTsFromCandyMachine(val value: kotlin.String) {
+         @Json(name = "devnet") devnet("devnet"),
+         @Json(name = "mainnet-beta") mainnetMinusBeta("mainnet-beta"),
+         ;
+     }
+
+    /**
     * Get CM&#39;s NFTs  
     * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-candy-machine/get-candy-machine-all-nfts\&quot; target&#x3D;\&quot;_blank\&quot;&gt; See examples (Python, JavaScript)&lt;/a&gt;.  Use this endpoint to get the list of all NFTs (minted and unminted) from a Solana Candy Machine.  This works for &#x60;v1&#x60; and &#x60;v2&#x60; candy machines.   *However*, for &#x60;v2&#x60; only the value for &#x60;all_nfts&#x60; is provided. To determine which are minted and unminted follow this example.  You do not need to specify &#x60;v1&#x60; or &#x60;v2&#x60; for this endpoint as it will automatically determine it from the candy machine ID.  See example for how to get the list of NFT hashes &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-candy-machine/get-candy-machine-hash-table\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.    &#x60;Cost: 2 Credits&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param network The network ID 
     * @param candyMachineId The ID of the candy machine 
     * @return GetAllNFTsResponse
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun solanaGetAllNFTsFromCandyMachine(network: kotlin.String, candyMachineId: kotlin.String) : GetAllNFTsResponse {
-        val localVariableConfig = solanaGetAllNFTsFromCandyMachineRequestConfig(network = network, candyMachineId = candyMachineId)
-
-        val localVarResponse = request<Unit, GetAllNFTsResponse>(
-            localVariableConfig
-        )
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun solanaGetAllNFTsFromCandyMachine(network: Network_solanaGetAllNFTsFromCandyMachine, candyMachineId: kotlin.String) : GetAllNFTsResponse {
+        val localVarResponse = solanaGetAllNFTsFromCandyMachineWithHttpInfo(network = network, candyMachineId = candyMachineId)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as GetAllNFTsResponse
@@ -139,16 +169,36 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
     }
 
     /**
+    * Get CM&#39;s NFTs  
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-candy-machine/get-candy-machine-all-nfts\&quot; target&#x3D;\&quot;_blank\&quot;&gt; See examples (Python, JavaScript)&lt;/a&gt;.  Use this endpoint to get the list of all NFTs (minted and unminted) from a Solana Candy Machine.  This works for &#x60;v1&#x60; and &#x60;v2&#x60; candy machines.   *However*, for &#x60;v2&#x60; only the value for &#x60;all_nfts&#x60; is provided. To determine which are minted and unminted follow this example.  You do not need to specify &#x60;v1&#x60; or &#x60;v2&#x60; for this endpoint as it will automatically determine it from the candy machine ID.  See example for how to get the list of NFT hashes &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-candy-machine/get-candy-machine-hash-table\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.    &#x60;Cost: 2 Credits&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param network The network ID 
+    * @param candyMachineId The ID of the candy machine 
+    * @return ApiResponse<GetAllNFTsResponse?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaGetAllNFTsFromCandyMachineWithHttpInfo(network: Network_solanaGetAllNFTsFromCandyMachine, candyMachineId: kotlin.String) : ApiResponse<GetAllNFTsResponse?> {
+        val localVariableConfig = solanaGetAllNFTsFromCandyMachineRequestConfig(network = network, candyMachineId = candyMachineId)
+
+        return request<Unit, GetAllNFTsResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaGetAllNFTsFromCandyMachine
     *
     * @param network The network ID 
     * @param candyMachineId The ID of the candy machine 
     * @return RequestConfig
     */
-    fun solanaGetAllNFTsFromCandyMachineRequestConfig(network: kotlin.String, candyMachineId: kotlin.String) : RequestConfig<Unit> {
+    fun solanaGetAllNFTsFromCandyMachineRequestConfig(network: Network_solanaGetAllNFTsFromCandyMachine, candyMachineId: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -164,18 +214,16 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
     * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-candy-machine/get-candy-machine-metadata\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Use this endpoint to get metadata about a Metaplex candy machine. This includes the goLiveDate, itemsAvailable, and itemsRedeemed. To see what is included, expand the green successful response below.  NOTE: Supply exactly one of &#x60;candy_machine_id&#x60;, &#x60;config_address&#x60;, or &#x60;uuid&#x60;. If you provide more than one, you will receive a &#x60;400&#x60; error.   &#x60;Cost: 2 Credits&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param getCandyMetadataRequest  (optional)
     * @return GetCandyMetadataResponse
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun solanaGetCandyMachineMetadata(getCandyMetadataRequest: GetCandyMetadataRequest?) : GetCandyMetadataResponse {
-        val localVariableConfig = solanaGetCandyMachineMetadataRequestConfig(getCandyMetadataRequest = getCandyMetadataRequest)
-
-        val localVarResponse = request<GetCandyMetadataRequest, GetCandyMetadataResponse>(
-            localVariableConfig
-        )
+        val localVarResponse = solanaGetCandyMachineMetadataWithHttpInfo(getCandyMetadataRequest = getCandyMetadataRequest)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as GetCandyMetadataResponse
@@ -193,6 +241,24 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
     }
 
     /**
+    * Get a CM&#39;s metadata 
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-candy-machine/get-candy-machine-metadata\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Use this endpoint to get metadata about a Metaplex candy machine. This includes the goLiveDate, itemsAvailable, and itemsRedeemed. To see what is included, expand the green successful response below.  NOTE: Supply exactly one of &#x60;candy_machine_id&#x60;, &#x60;config_address&#x60;, or &#x60;uuid&#x60;. If you provide more than one, you will receive a &#x60;400&#x60; error.   &#x60;Cost: 2 Credits&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param getCandyMetadataRequest  (optional)
+    * @return ApiResponse<GetCandyMetadataResponse?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaGetCandyMachineMetadataWithHttpInfo(getCandyMetadataRequest: GetCandyMetadataRequest?) : ApiResponse<GetCandyMetadataResponse?> {
+        val localVariableConfig = solanaGetCandyMachineMetadataRequestConfig(getCandyMetadataRequest = getCandyMetadataRequest)
+
+        return request<GetCandyMetadataRequest, GetCandyMetadataResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaGetCandyMachineMetadata
     *
     * @param getCandyMetadataRequest  (optional)
@@ -202,6 +268,8 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
         val localVariableBody = getCandyMetadataRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,
@@ -216,18 +284,16 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
     * List all CMs
     * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-candy-machine/list-all-candy-machines\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  With this endpoint, you can list all candy machines published to Solana mainnet.  We update this data every 15 minutes.  The output is a list of config addresses, currently about 17000 in length.  &#x60;Cost: 2 Credits&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @return kotlin.Any
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun solanaListAllCandyMachines() : kotlin.Any {
-        val localVariableConfig = solanaListAllCandyMachinesRequestConfig()
-
-        val localVarResponse = request<Unit, kotlin.Any>(
-            localVariableConfig
-        )
+        val localVarResponse = solanaListAllCandyMachinesWithHttpInfo()
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.Any
@@ -245,6 +311,23 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
     }
 
     /**
+    * List all CMs
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-candy-machine/list-all-candy-machines\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  With this endpoint, you can list all candy machines published to Solana mainnet.  We update this data every 15 minutes.  The output is a list of config addresses, currently about 17000 in length.  &#x60;Cost: 2 Credits&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @return ApiResponse<kotlin.Any?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaListAllCandyMachinesWithHttpInfo() : ApiResponse<kotlin.Any?> {
+        val localVariableConfig = solanaListAllCandyMachinesRequestConfig()
+
+        return request<Unit, kotlin.Any>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaListAllCandyMachines
     *
     * @return RequestConfig
@@ -253,6 +336,7 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -268,18 +352,16 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
     * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-candy-machine/mint-from-candy-machine\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Use this endpoint to mint an NFT from a metaplex candy machine as soon as it drops.  This only works for &#x60;v1&#x60; and &#x60;v2&#x60; candy machines, and does not work for candy machines of any other type such as Magic Eden candy machines.  In order to achieve speed, this endpoint sends the transaction without checking whether or not it confirmed. It could still fail, for example, because the candy machine ran out of available mints. You should check the status of the transaction using our &lt;a href&#x3D;\&quot;#operation/solanaGetTransaction\&quot;&gt;getTransaction&lt;/a&gt; endpoint. &lt;a href&#x3D;\&quot;https://gist.github.com/joshwolff1/298e8251e43ff9b4815028683b1ca17d\&quot; target&#x3D;\&quot;_blank\&quot;&gt;Here&#39;s an example&lt;/a&gt; of how to do this.  Mint transactions for candy machines that have capatcha/Civic enabled will fail. There is a gatekeeper functionality where you must manually verify through Civic and captcha in order to mint from a candy machine. In this functionality, Civic signs the transaction. Therefore, if the gatekeeper functionality is enabled, our “Mint from candy machine” endpoint will fail because it is missing a signer. If it is not enabled, then our “Mint from candy machine” endpoint will succeed. One caveat is the attribute “expireOnUse”. If this is True, then you have to solve a captcha each time. In this case, the “Mint from candy machine” endpoint will fail. If this is False, then your first verification is sufficient for further mints. In which case, after verifying manually the first time, you can use our endpoint thereafter.   You can check if the gatekeeper functionality is enabled with this &lt;a href&#x3D;\&quot;#operation/solanaGetCandyMachineMetadata\&quot;&gt;endpoint&lt;/a&gt;.   &#x60;Cost: 8 Credits&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param mintNFTRequest  (optional)
     * @return MintNFTResponse
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun solanaMintFromCandyMachine(mintNFTRequest: MintNFTRequest?) : MintNFTResponse {
-        val localVariableConfig = solanaMintFromCandyMachineRequestConfig(mintNFTRequest = mintNFTRequest)
-
-        val localVarResponse = request<MintNFTRequest, MintNFTResponse>(
-            localVariableConfig
-        )
+        val localVarResponse = solanaMintFromCandyMachineWithHttpInfo(mintNFTRequest = mintNFTRequest)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MintNFTResponse
@@ -297,6 +379,24 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
     }
 
     /**
+    * Mint from a CM
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-candy-machine/mint-from-candy-machine\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Use this endpoint to mint an NFT from a metaplex candy machine as soon as it drops.  This only works for &#x60;v1&#x60; and &#x60;v2&#x60; candy machines, and does not work for candy machines of any other type such as Magic Eden candy machines.  In order to achieve speed, this endpoint sends the transaction without checking whether or not it confirmed. It could still fail, for example, because the candy machine ran out of available mints. You should check the status of the transaction using our &lt;a href&#x3D;\&quot;#operation/solanaGetTransaction\&quot;&gt;getTransaction&lt;/a&gt; endpoint. &lt;a href&#x3D;\&quot;https://gist.github.com/joshwolff1/298e8251e43ff9b4815028683b1ca17d\&quot; target&#x3D;\&quot;_blank\&quot;&gt;Here&#39;s an example&lt;/a&gt; of how to do this.  Mint transactions for candy machines that have capatcha/Civic enabled will fail. There is a gatekeeper functionality where you must manually verify through Civic and captcha in order to mint from a candy machine. In this functionality, Civic signs the transaction. Therefore, if the gatekeeper functionality is enabled, our “Mint from candy machine” endpoint will fail because it is missing a signer. If it is not enabled, then our “Mint from candy machine” endpoint will succeed. One caveat is the attribute “expireOnUse”. If this is True, then you have to solve a captcha each time. In this case, the “Mint from candy machine” endpoint will fail. If this is False, then your first verification is sufficient for further mints. In which case, after verifying manually the first time, you can use our endpoint thereafter.   You can check if the gatekeeper functionality is enabled with this &lt;a href&#x3D;\&quot;#operation/solanaGetCandyMachineMetadata\&quot;&gt;endpoint&lt;/a&gt;.   &#x60;Cost: 8 Credits&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param mintNFTRequest  (optional)
+    * @return ApiResponse<MintNFTResponse?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaMintFromCandyMachineWithHttpInfo(mintNFTRequest: MintNFTRequest?) : ApiResponse<MintNFTResponse?> {
+        val localVariableConfig = solanaMintFromCandyMachineRequestConfig(mintNFTRequest = mintNFTRequest)
+
+        return request<MintNFTRequest, MintNFTResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaMintFromCandyMachine
     *
     * @param mintNFTRequest  (optional)
@@ -306,6 +406,8 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
         val localVariableBody = mintNFTRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,
@@ -321,18 +423,16 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
     * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-candy-machine/search-candy-machines\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  With this endpoint, you can search candy machines by their symbol, name of NFTs, uuid, configuration address, and update authority.  The output is a list of config addresses.  You can also provide multiple search clauses, such as the update authority (&#x60;update_authority&#x3D;\&quot;G17UmNGnMJ851x3M1JXocgpft1afcYedjPuFpo1ohhCk\&quot;&#x60;) and symbol begins with \&quot;Sol\&quot; (&#x60;symbol&#x3D;\&quot;Sol\&quot;, symbol_search_method&#x3D;&#39;begins_with&#39;&#x60;).  &#x60;Cost: 2 Credits&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param candyMachineSearchRequest  (optional)
     * @return kotlin.collections.List<kotlin.String>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun solanaSearchCandyMachines(candyMachineSearchRequest: CandyMachineSearchRequest?) : kotlin.collections.List<kotlin.String> {
-        val localVariableConfig = solanaSearchCandyMachinesRequestConfig(candyMachineSearchRequest = candyMachineSearchRequest)
-
-        val localVarResponse = request<CandyMachineSearchRequest, kotlin.collections.List<kotlin.String>>(
-            localVariableConfig
-        )
+        val localVarResponse = solanaSearchCandyMachinesWithHttpInfo(candyMachineSearchRequest = candyMachineSearchRequest)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<kotlin.String>
@@ -350,6 +450,24 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
     }
 
     /**
+    * Search CMs
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-candy-machine/search-candy-machines\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  With this endpoint, you can search candy machines by their symbol, name of NFTs, uuid, configuration address, and update authority.  The output is a list of config addresses.  You can also provide multiple search clauses, such as the update authority (&#x60;update_authority&#x3D;\&quot;G17UmNGnMJ851x3M1JXocgpft1afcYedjPuFpo1ohhCk\&quot;&#x60;) and symbol begins with \&quot;Sol\&quot; (&#x60;symbol&#x3D;\&quot;Sol\&quot;, symbol_search_method&#x3D;&#39;begins_with&#39;&#x60;).  &#x60;Cost: 2 Credits&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param candyMachineSearchRequest  (optional)
+    * @return ApiResponse<kotlin.collections.List<kotlin.String>?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaSearchCandyMachinesWithHttpInfo(candyMachineSearchRequest: CandyMachineSearchRequest?) : ApiResponse<kotlin.collections.List<kotlin.String>?> {
+        val localVariableConfig = solanaSearchCandyMachinesRequestConfig(candyMachineSearchRequest = candyMachineSearchRequest)
+
+        return request<CandyMachineSearchRequest, kotlin.collections.List<kotlin.String>>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaSearchCandyMachines
     *
     * @param candyMachineSearchRequest  (optional)
@@ -359,6 +477,8 @@ class SolanaCandyMachineApi(basePath: kotlin.String = defaultBasePath) : ApiClie
         val localVariableBody = candyMachineSearchRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,

@@ -20,9 +20,14 @@
 
 package org.openapitools.client.apis
 
+import java.io.IOException
+
 import org.openapitools.client.models.Transaction
 
+import com.squareup.moshi.Json
+
 import org.openapitools.client.infrastructure.ApiClient
+import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -38,7 +43,7 @@ class SolanaTransactionApi(basePath: kotlin.String = defaultBasePath) : ApiClien
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("org.openapitools.client.baseUrl", "https://api.blockchainapi.com/v1")
+            System.getProperties().getProperty(ApiClient.baseUrlKey, "https://api.blockchainapi.com/v1")
         }
     }
 
@@ -48,18 +53,16 @@ class SolanaTransactionApi(basePath: kotlin.String = defaultBasePath) : ApiClien
     * @param network The network ID (devnet, mainnet-beta) 
     * @param txSignature The transaction signature of the transaction 
     * @return Transaction
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun solanaGetTransaction(network: kotlin.String, txSignature: kotlin.String) : Transaction {
-        val localVariableConfig = solanaGetTransactionRequestConfig(network = network, txSignature = txSignature)
-
-        val localVarResponse = request<Unit, Transaction>(
-            localVariableConfig
-        )
+        val localVarResponse = solanaGetTransactionWithHttpInfo(network = network, txSignature = txSignature)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as Transaction
@@ -77,6 +80,25 @@ class SolanaTransactionApi(basePath: kotlin.String = defaultBasePath) : ApiClien
     }
 
     /**
+    * Get the details of a transaction made on Solana
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-transaction/get-transaction\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.      Get the details of a transaction made on Solana.  &#x60;Cost: 0.25 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param network The network ID (devnet, mainnet-beta) 
+    * @param txSignature The transaction signature of the transaction 
+    * @return ApiResponse<Transaction?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaGetTransactionWithHttpInfo(network: kotlin.String, txSignature: kotlin.String) : ApiResponse<Transaction?> {
+        val localVariableConfig = solanaGetTransactionRequestConfig(network = network, txSignature = txSignature)
+
+        return request<Unit, Transaction>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaGetTransaction
     *
     * @param network The network ID (devnet, mainnet-beta) 
@@ -87,6 +109,7 @@ class SolanaTransactionApi(basePath: kotlin.String = defaultBasePath) : ApiClien
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,

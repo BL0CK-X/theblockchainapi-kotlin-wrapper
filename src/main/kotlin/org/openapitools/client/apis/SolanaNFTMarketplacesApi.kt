@@ -20,6 +20,8 @@
 
 package org.openapitools.client.apis
 
+import java.io.IOException
+
 import org.openapitools.client.models.BuyRequest
 import org.openapitools.client.models.BuyResponse
 import org.openapitools.client.models.DelistRequest
@@ -27,11 +29,11 @@ import org.openapitools.client.models.DelistResponse
 import org.openapitools.client.models.GetNFTListingResponse
 import org.openapitools.client.models.ListRequest
 import org.openapitools.client.models.ListResponse
-import org.openapitools.client.models.NFTAnalyticsRequest
-import org.openapitools.client.models.NFTAnalyticsResponse
-import org.openapitools.client.models.NFTTransaction
+
+import com.squareup.moshi.Json
 
 import org.openapitools.client.infrastructure.ApiClient
+import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -47,30 +49,45 @@ class SolanaNFTMarketplacesApi(basePath: kotlin.String = defaultBasePath) : ApiC
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("org.openapitools.client.baseUrl", "https://api.blockchainapi.com/v1")
+            System.getProperties().getProperty(ApiClient.baseUrlKey, "https://api.blockchainapi.com/v1")
         }
     }
 
     /**
+     * enum for parameter network
+     */
+     enum class Network_solanaBuyNFT(val value: kotlin.String) {
+         @Json(name = "devnet") devnet("devnet"),
+         @Json(name = "mainnet-beta") mainnetMinusBeta("mainnet-beta"),
+         ;
+     }
+
+    /**
+     * enum for parameter exchange
+     */
+     enum class Exchange_solanaBuyNFT(val value: kotlin.String) {
+         @Json(name = "magic-eden") magicMinusEden("magic-eden"),
+         ;
+     }
+
+    /**
     * Buy
-    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/blockchain-api/tree/main/examples/solana-nft-marketplaces/buy-nft\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Buy an NFT on a Solana Exchange.  Exchanges supported: SolSea, Magic Edennpm  &#x60;Cost: 25 Credits&#x60;, &#x60;Cost: 3 Credits on Devnet&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/blockchain-api/tree/main/examples/solana-nft-marketplaces/buy-nft\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Buy an NFT on a Solana Exchange.  Exchanges supported: SolSea, Magic Eden  &#x60;Cost: 25 Credits&#x60;, &#x60;Cost: 3 Credits on Devnet&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param network The network ID 
     * @param exchange The NFT exchange to interact with 
     * @param mintAddress The mint address of the NFT you want to buy 
     * @param buyRequest  (optional)
     * @return BuyResponse
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun solanaBuyNFT(network: kotlin.String, exchange: kotlin.String, mintAddress: kotlin.String, buyRequest: BuyRequest?) : BuyResponse {
-        val localVariableConfig = solanaBuyNFTRequestConfig(network = network, exchange = exchange, mintAddress = mintAddress, buyRequest = buyRequest)
-
-        val localVarResponse = request<BuyRequest, BuyResponse>(
-            localVariableConfig
-        )
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun solanaBuyNFT(network: Network_solanaBuyNFT, exchange: Exchange_solanaBuyNFT, mintAddress: kotlin.String, buyRequest: BuyRequest?) : BuyResponse {
+        val localVarResponse = solanaBuyNFTWithHttpInfo(network = network, exchange = exchange, mintAddress = mintAddress, buyRequest = buyRequest)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as BuyResponse
@@ -88,6 +105,27 @@ class SolanaNFTMarketplacesApi(basePath: kotlin.String = defaultBasePath) : ApiC
     }
 
     /**
+    * Buy
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/blockchain-api/tree/main/examples/solana-nft-marketplaces/buy-nft\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Buy an NFT on a Solana Exchange.  Exchanges supported: SolSea, Magic Eden  &#x60;Cost: 25 Credits&#x60;, &#x60;Cost: 3 Credits on Devnet&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param network The network ID 
+    * @param exchange The NFT exchange to interact with 
+    * @param mintAddress The mint address of the NFT you want to buy 
+    * @param buyRequest  (optional)
+    * @return ApiResponse<BuyResponse?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaBuyNFTWithHttpInfo(network: Network_solanaBuyNFT, exchange: Exchange_solanaBuyNFT, mintAddress: kotlin.String, buyRequest: BuyRequest?) : ApiResponse<BuyResponse?> {
+        val localVariableConfig = solanaBuyNFTRequestConfig(network = network, exchange = exchange, mintAddress = mintAddress, buyRequest = buyRequest)
+
+        return request<BuyRequest, BuyResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaBuyNFT
     *
     * @param network The network ID 
@@ -96,10 +134,12 @@ class SolanaNFTMarketplacesApi(basePath: kotlin.String = defaultBasePath) : ApiC
     * @param buyRequest  (optional)
     * @return RequestConfig
     */
-    fun solanaBuyNFTRequestConfig(network: kotlin.String, exchange: kotlin.String, mintAddress: kotlin.String, buyRequest: BuyRequest?) : RequestConfig<BuyRequest> {
+    fun solanaBuyNFTRequestConfig(network: Network_solanaBuyNFT, exchange: Exchange_solanaBuyNFT, mintAddress: kotlin.String, buyRequest: BuyRequest?) : RequestConfig<BuyRequest> {
         val localVariableBody = buyRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,
@@ -111,6 +151,23 @@ class SolanaNFTMarketplacesApi(basePath: kotlin.String = defaultBasePath) : ApiC
     }
 
     /**
+     * enum for parameter network
+     */
+     enum class Network_solanaDelistNFT(val value: kotlin.String) {
+         @Json(name = "devnet") devnet("devnet"),
+         @Json(name = "mainnet-beta") mainnetMinusBeta("mainnet-beta"),
+         ;
+     }
+
+    /**
+     * enum for parameter exchange
+     */
+     enum class Exchange_solanaDelistNFT(val value: kotlin.String) {
+         @Json(name = "magic-eden") magicMinusEden("magic-eden"),
+         ;
+     }
+
+    /**
     * Delist
     * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/blockchain-api/tree/main/examples/solana-nft-marketplaces/delist-nft\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Delist an NFT from a Solana Exchange.  Exchanges supported: SolSea, Magic Eden  &#x60;Cost: 8 Credits&#x60;, &#x60;Cost: 3 Credits on Devnet&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param network The network ID 
@@ -118,18 +175,16 @@ class SolanaNFTMarketplacesApi(basePath: kotlin.String = defaultBasePath) : ApiC
     * @param mintAddress The mint address of the NFT you want to buy 
     * @param delistRequest  (optional)
     * @return DelistResponse
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun solanaDelistNFT(network: kotlin.String, exchange: kotlin.String, mintAddress: kotlin.String, delistRequest: DelistRequest?) : DelistResponse {
-        val localVariableConfig = solanaDelistNFTRequestConfig(network = network, exchange = exchange, mintAddress = mintAddress, delistRequest = delistRequest)
-
-        val localVarResponse = request<DelistRequest, DelistResponse>(
-            localVariableConfig
-        )
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun solanaDelistNFT(network: Network_solanaDelistNFT, exchange: Exchange_solanaDelistNFT, mintAddress: kotlin.String, delistRequest: DelistRequest?) : DelistResponse {
+        val localVarResponse = solanaDelistNFTWithHttpInfo(network = network, exchange = exchange, mintAddress = mintAddress, delistRequest = delistRequest)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as DelistResponse
@@ -147,6 +202,27 @@ class SolanaNFTMarketplacesApi(basePath: kotlin.String = defaultBasePath) : ApiC
     }
 
     /**
+    * Delist
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/blockchain-api/tree/main/examples/solana-nft-marketplaces/delist-nft\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Delist an NFT from a Solana Exchange.  Exchanges supported: SolSea, Magic Eden  &#x60;Cost: 8 Credits&#x60;, &#x60;Cost: 3 Credits on Devnet&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param network The network ID 
+    * @param exchange The NFT exchange to interact with 
+    * @param mintAddress The mint address of the NFT you want to buy 
+    * @param delistRequest  (optional)
+    * @return ApiResponse<DelistResponse?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaDelistNFTWithHttpInfo(network: Network_solanaDelistNFT, exchange: Exchange_solanaDelistNFT, mintAddress: kotlin.String, delistRequest: DelistRequest?) : ApiResponse<DelistResponse?> {
+        val localVariableConfig = solanaDelistNFTRequestConfig(network = network, exchange = exchange, mintAddress = mintAddress, delistRequest = delistRequest)
+
+        return request<DelistRequest, DelistResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaDelistNFT
     *
     * @param network The network ID 
@@ -155,10 +231,12 @@ class SolanaNFTMarketplacesApi(basePath: kotlin.String = defaultBasePath) : ApiC
     * @param delistRequest  (optional)
     * @return RequestConfig
     */
-    fun solanaDelistNFTRequestConfig(network: kotlin.String, exchange: kotlin.String, mintAddress: kotlin.String, delistRequest: DelistRequest?) : RequestConfig<DelistRequest> {
+    fun solanaDelistNFTRequestConfig(network: Network_solanaDelistNFT, exchange: Exchange_solanaDelistNFT, mintAddress: kotlin.String, delistRequest: DelistRequest?) : RequestConfig<DelistRequest> {
         val localVariableBody = delistRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,
@@ -170,23 +248,30 @@ class SolanaNFTMarketplacesApi(basePath: kotlin.String = defaultBasePath) : ApiC
     }
 
     /**
+     * enum for parameter network
+     */
+     enum class Network_solanaGetNFTListing(val value: kotlin.String) {
+         @Json(name = "devnet") devnet("devnet"),
+         @Json(name = "mainnet-beta") mainnetMinusBeta("mainnet-beta"),
+         ;
+     }
+
+    /**
     * Get NFT Listing
     * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/blockchain-api/tree/main/examples/solana-nft-marketplaces/get-nft-listing\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Get the Marketplace listing of a Solana NFT.  Currently checks the following Solana NFT martketplaces: SolSea, Magic Eden, Solanart, Alpha Art, Digital Eyes, Exchange.art  &#x60;Cost: 1 Credits&#x60;, (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param network The network ID 
     * @param mintAddress The mint address of the NFT you want to buy 
     * @return GetNFTListingResponse
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun solanaGetNFTListing(network: kotlin.String, mintAddress: kotlin.String) : GetNFTListingResponse {
-        val localVariableConfig = solanaGetNFTListingRequestConfig(network = network, mintAddress = mintAddress)
-
-        val localVarResponse = request<Unit, GetNFTListingResponse>(
-            localVariableConfig
-        )
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun solanaGetNFTListing(network: Network_solanaGetNFTListing, mintAddress: kotlin.String) : GetNFTListingResponse {
+        val localVarResponse = solanaGetNFTListingWithHttpInfo(network = network, mintAddress = mintAddress)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as GetNFTListingResponse
@@ -204,16 +289,36 @@ class SolanaNFTMarketplacesApi(basePath: kotlin.String = defaultBasePath) : ApiC
     }
 
     /**
+    * Get NFT Listing
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/blockchain-api/tree/main/examples/solana-nft-marketplaces/get-nft-listing\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Get the Marketplace listing of a Solana NFT.  Currently checks the following Solana NFT martketplaces: SolSea, Magic Eden, Solanart, Alpha Art, Digital Eyes, Exchange.art  &#x60;Cost: 1 Credits&#x60;, (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param network The network ID 
+    * @param mintAddress The mint address of the NFT you want to buy 
+    * @return ApiResponse<GetNFTListingResponse?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaGetNFTListingWithHttpInfo(network: Network_solanaGetNFTListing, mintAddress: kotlin.String) : ApiResponse<GetNFTListingResponse?> {
+        val localVariableConfig = solanaGetNFTListingRequestConfig(network = network, mintAddress = mintAddress)
+
+        return request<Unit, GetNFTListingResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaGetNFTListing
     *
     * @param network The network ID 
     * @param mintAddress The mint address of the NFT you want to buy 
     * @return RequestConfig
     */
-    fun solanaGetNFTListingRequestConfig(network: kotlin.String, mintAddress: kotlin.String) : RequestConfig<Unit> {
+    fun solanaGetNFTListingRequestConfig(network: Network_solanaGetNFTListing, mintAddress: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -225,159 +330,21 @@ class SolanaNFTMarketplacesApi(basePath: kotlin.String = defaultBasePath) : ApiC
     }
 
     /**
-    * Get NFT Analytics
-    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/blockchain-api/tree/main/examples/solana-nft-marketplaces/analytics\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  A collection is a list of NFTs.  Any collection can thus be defined as a list of mint addresses.  This endpoint takes in a list of mint addresses (effectively, a collection), a start time (optional), and an end time (optional) and outputs the floor for that period, the volume for that period, and the transaction history for each NFT in the list (buy, list, delist, update price) for that period.  We are currently compiling a dictionary of collection names to list of mint addresses for public use. Please contribute &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/solana-nft-collection-mint-addresses\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Currently scans the following Solana NFT martketplaces: SolSea, Magic Eden, Solanart, Alpha Art, Digital Eyes, Exchange.art  &#x60;Cost: 15 Credits&#x60;, (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
-    * @param nfTAnalyticsRequest  (optional)
-    * @return NFTAnalyticsResponse
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
-    @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun solanaGetNFTMarketplaceAnalytics(nfTAnalyticsRequest: NFTAnalyticsRequest?) : NFTAnalyticsResponse {
-        val localVariableConfig = solanaGetNFTMarketplaceAnalyticsRequestConfig(nfTAnalyticsRequest = nfTAnalyticsRequest)
-
-        val localVarResponse = request<NFTAnalyticsRequest, NFTAnalyticsResponse>(
-            localVariableConfig
-        )
-
-        return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as NFTAnalyticsResponse
-            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
-            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> {
-                val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-            ResponseType.ServerError -> {
-                val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-        }
-    }
+     * enum for parameter network
+     */
+     enum class Network_solanaListNFT(val value: kotlin.String) {
+         @Json(name = "devnet") devnet("devnet"),
+         @Json(name = "mainnet-beta") mainnetMinusBeta("mainnet-beta"),
+         ;
+     }
 
     /**
-    * To obtain the request config of the operation solanaGetNFTMarketplaceAnalytics
-    *
-    * @param nfTAnalyticsRequest  (optional)
-    * @return RequestConfig
-    */
-    fun solanaGetNFTMarketplaceAnalyticsRequestConfig(nfTAnalyticsRequest: NFTAnalyticsRequest?) : RequestConfig<NFTAnalyticsRequest> {
-        val localVariableBody = nfTAnalyticsRequest
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-
-        return RequestConfig(
-            method = RequestMethod.POST,
-            path = "/solana/nft/marketplaces/analytics",
-            query = localVariableQuery,
-            headers = localVariableHeaders,
-            body = localVariableBody
-        )
-    }
-
-    /**
-    * Get Marketplace Market Share
-    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/blockchain-api/tree/main/examples/solana-nft-marketplaces/market-share\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Get the Marketplace listing of a Solana NFT.  Currently checks for the following Solana NFT martketplaces: SolSea, Magic Eden, Solanart, Alpha Art, Digital Eyes, Exchange.art  &#x60;Cost: 3 Credits&#x60;, (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
-    * @return kotlin.Any
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
-    @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun solanaGetNFTMarketplaceMarketShare() : kotlin.Any {
-        val localVariableConfig = solanaGetNFTMarketplaceMarketShareRequestConfig()
-
-        val localVarResponse = request<Unit, kotlin.Any>(
-            localVariableConfig
-        )
-
-        return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.Any
-            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
-            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> {
-                val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-            ResponseType.ServerError -> {
-                val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-        }
-    }
-
-    /**
-    * To obtain the request config of the operation solanaGetNFTMarketplaceMarketShare
-    *
-    * @return RequestConfig
-    */
-    fun solanaGetNFTMarketplaceMarketShareRequestConfig() : RequestConfig<Unit> {
-        val localVariableBody = null
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-
-        return RequestConfig(
-            method = RequestMethod.GET,
-            path = "/solana/nft/marketplaces/analytics/market_share",
-            query = localVariableQuery,
-            headers = localVariableHeaders,
-            body = localVariableBody
-        )
-    }
-
-    /**
-    * Get Recent NFT Transactions
-    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/blockchain-api/tree/main/examples/solana-nft-marketplaces/recent-transactions\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Get all NFT transactions across all major marketplaces in the last 30 minutes.  Currently checks for the following Solana NFT martketplaces: SolSea, Magic Eden, Solanart, Alpha Art, Digital Eyes, Exchange.art  &#x60;Cost: 15 Credits&#x60;, (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
-    * @return kotlin.collections.List<NFTTransaction>
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
-    */
-    @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun solanaGetNFTMarketplaceRecentTransactions() : kotlin.collections.List<NFTTransaction> {
-        val localVariableConfig = solanaGetNFTMarketplaceRecentTransactionsRequestConfig()
-
-        val localVarResponse = request<Unit, kotlin.collections.List<NFTTransaction>>(
-            localVariableConfig
-        )
-
-        return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<NFTTransaction>
-            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
-            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
-            ResponseType.ClientError -> {
-                val localVarError = localVarResponse as ClientError<*>
-                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-            ResponseType.ServerError -> {
-                val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
-            }
-        }
-    }
-
-    /**
-    * To obtain the request config of the operation solanaGetNFTMarketplaceRecentTransactions
-    *
-    * @return RequestConfig
-    */
-    fun solanaGetNFTMarketplaceRecentTransactionsRequestConfig() : RequestConfig<Unit> {
-        val localVariableBody = null
-        val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-
-        return RequestConfig(
-            method = RequestMethod.GET,
-            path = "/solana/nft/marketplaces/analytics/recent_transactions",
-            query = localVariableQuery,
-            headers = localVariableHeaders,
-            body = localVariableBody
-        )
-    }
+     * enum for parameter exchange
+     */
+     enum class Exchange_solanaListNFT(val value: kotlin.String) {
+         @Json(name = "magic-eden") magicMinusEden("magic-eden"),
+         ;
+     }
 
     /**
     * List
@@ -387,18 +354,16 @@ class SolanaNFTMarketplacesApi(basePath: kotlin.String = defaultBasePath) : ApiC
     * @param mintAddress The mint address of the NFT you want to buy 
     * @param listRequest  (optional)
     * @return ListResponse
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun solanaListNFT(network: kotlin.String, exchange: kotlin.String, mintAddress: kotlin.String, listRequest: ListRequest?) : ListResponse {
-        val localVariableConfig = solanaListNFTRequestConfig(network = network, exchange = exchange, mintAddress = mintAddress, listRequest = listRequest)
-
-        val localVarResponse = request<ListRequest, ListResponse>(
-            localVariableConfig
-        )
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun solanaListNFT(network: Network_solanaListNFT, exchange: Exchange_solanaListNFT, mintAddress: kotlin.String, listRequest: ListRequest?) : ListResponse {
+        val localVarResponse = solanaListNFTWithHttpInfo(network = network, exchange = exchange, mintAddress = mintAddress, listRequest = listRequest)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as ListResponse
@@ -416,6 +381,27 @@ class SolanaNFTMarketplacesApi(basePath: kotlin.String = defaultBasePath) : ApiC
     }
 
     /**
+    * List
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/blockchain-api/tree/main/examples/solana-nft-marketplaces/list-nft\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  List an NFT on a Solana Exchange.  Exchanges supported: SolSea, Magic Eden  &#x60;Cost: 12 Credits&#x60;, &#x60;Cost: 3 Credits on Devnet&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param network The network ID 
+    * @param exchange The NFT exchange to interact with 
+    * @param mintAddress The mint address of the NFT you want to buy 
+    * @param listRequest  (optional)
+    * @return ApiResponse<ListResponse?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaListNFTWithHttpInfo(network: Network_solanaListNFT, exchange: Exchange_solanaListNFT, mintAddress: kotlin.String, listRequest: ListRequest?) : ApiResponse<ListResponse?> {
+        val localVariableConfig = solanaListNFTRequestConfig(network = network, exchange = exchange, mintAddress = mintAddress, listRequest = listRequest)
+
+        return request<ListRequest, ListResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaListNFT
     *
     * @param network The network ID 
@@ -424,10 +410,12 @@ class SolanaNFTMarketplacesApi(basePath: kotlin.String = defaultBasePath) : ApiC
     * @param listRequest  (optional)
     * @return RequestConfig
     */
-    fun solanaListNFTRequestConfig(network: kotlin.String, exchange: kotlin.String, mintAddress: kotlin.String, listRequest: ListRequest?) : RequestConfig<ListRequest> {
+    fun solanaListNFTRequestConfig(network: Network_solanaListNFT, exchange: Exchange_solanaListNFT, mintAddress: kotlin.String, listRequest: ListRequest?) : RequestConfig<ListRequest> {
         val localVariableBody = listRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,

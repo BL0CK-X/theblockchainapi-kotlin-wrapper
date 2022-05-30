@@ -20,11 +20,16 @@
 
 package org.openapitools.client.apis
 
+import java.io.IOException
+
 import org.openapitools.client.models.Account
 import org.openapitools.client.models.AccountIsCandyMachine
 import org.openapitools.client.models.AccountIsNFT
 
+import com.squareup.moshi.Json
+
 import org.openapitools.client.infrastructure.ApiClient
+import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -40,7 +45,7 @@ class SolanaAccountApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("org.openapitools.client.baseUrl", "https://api.blockchainapi.com/v1")
+            System.getProperties().getProperty(ApiClient.baseUrlKey, "https://api.blockchainapi.com/v1")
         }
     }
 
@@ -50,18 +55,16 @@ class SolanaAccountApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
     * @param network The network ID (devnet, mainnet-beta) 
     * @param publicKey The public key of the account 
     * @return Account
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun solanaGetAccount(network: kotlin.String, publicKey: kotlin.String) : Account {
-        val localVariableConfig = solanaGetAccountRequestConfig(network = network, publicKey = publicKey)
-
-        val localVarResponse = request<Unit, Account>(
-            localVariableConfig
-        )
+        val localVarResponse = solanaGetAccountWithHttpInfo(network = network, publicKey = publicKey)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as Account
@@ -79,6 +82,25 @@ class SolanaAccountApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
     }
 
     /**
+    * Get the details of an account on Solana
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-account/get-account\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.      Get the details of an account on Solana. Learn more about accounts &lt;a href&#x3D;\&quot;https://docs.solana.com/developing/programming-model/accounts\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  &#x60;Cost: 0.25 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param network The network ID (devnet, mainnet-beta) 
+    * @param publicKey The public key of the account 
+    * @return ApiResponse<Account?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaGetAccountWithHttpInfo(network: kotlin.String, publicKey: kotlin.String) : ApiResponse<Account?> {
+        val localVariableConfig = solanaGetAccountRequestConfig(network = network, publicKey = publicKey)
+
+        return request<Unit, Account>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaGetAccount
     *
     * @param network The network ID (devnet, mainnet-beta) 
@@ -89,6 +111,7 @@ class SolanaAccountApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -105,18 +128,16 @@ class SolanaAccountApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
     * @param network The network ID (devnet, mainnet-beta) 
     * @param publicKey The public key of the account 
     * @return AccountIsCandyMachine
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun solanaGetAccountIsCandyMachine(network: kotlin.String, publicKey: kotlin.String) : AccountIsCandyMachine {
-        val localVariableConfig = solanaGetAccountIsCandyMachineRequestConfig(network = network, publicKey = publicKey)
-
-        val localVarResponse = request<Unit, AccountIsCandyMachine>(
-            localVariableConfig
-        )
+        val localVarResponse = solanaGetAccountIsCandyMachineWithHttpInfo(network = network, publicKey = publicKey)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as AccountIsCandyMachine
@@ -134,6 +155,25 @@ class SolanaAccountApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
     }
 
     /**
+    * Get if account is candy machine
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-account/get-is-candy-machine\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.      Determine whether or not a public key address corresponds to a candy machine ID or candy machine configuration.  &#x60;Cost: 1 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param network The network ID (devnet, mainnet-beta) 
+    * @param publicKey The public key of the account 
+    * @return ApiResponse<AccountIsCandyMachine?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaGetAccountIsCandyMachineWithHttpInfo(network: kotlin.String, publicKey: kotlin.String) : ApiResponse<AccountIsCandyMachine?> {
+        val localVariableConfig = solanaGetAccountIsCandyMachineRequestConfig(network = network, publicKey = publicKey)
+
+        return request<Unit, AccountIsCandyMachine>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaGetAccountIsCandyMachine
     *
     * @param network The network ID (devnet, mainnet-beta) 
@@ -144,6 +184,7 @@ class SolanaAccountApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -160,18 +201,16 @@ class SolanaAccountApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
     * @param network The network ID (devnet, mainnet-beta) 
     * @param publicKey The public key of the account 
     * @return AccountIsNFT
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun solanaGetAccountIsNFT(network: kotlin.String, publicKey: kotlin.String) : AccountIsNFT {
-        val localVariableConfig = solanaGetAccountIsNFTRequestConfig(network = network, publicKey = publicKey)
-
-        val localVarResponse = request<Unit, AccountIsNFT>(
-            localVariableConfig
-        )
+        val localVarResponse = solanaGetAccountIsNFTWithHttpInfo(network = network, publicKey = publicKey)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as AccountIsNFT
@@ -189,6 +228,25 @@ class SolanaAccountApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
     }
 
     /**
+    * Get if account is NFT
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-account/get-is-nft\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.      Determine whether or not a public key is an NFT &#x60;mint address&#x60;  &#x60;Cost: 0.5 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param network The network ID (devnet, mainnet-beta) 
+    * @param publicKey The public key of the account 
+    * @return ApiResponse<AccountIsNFT?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaGetAccountIsNFTWithHttpInfo(network: kotlin.String, publicKey: kotlin.String) : ApiResponse<AccountIsNFT?> {
+        val localVariableConfig = solanaGetAccountIsNFTRequestConfig(network = network, publicKey = publicKey)
+
+        return request<Unit, AccountIsNFT>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaGetAccountIsNFT
     *
     * @param network The network ID (devnet, mainnet-beta) 
@@ -199,6 +257,7 @@ class SolanaAccountApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,

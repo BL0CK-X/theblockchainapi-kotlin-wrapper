@@ -20,6 +20,8 @@
 
 package org.openapitools.client.apis
 
+import java.io.IOException
+
 import org.openapitools.client.models.GetCandyMachineIDRequest
 import org.openapitools.client.models.GetCandyMachineIDResponse
 import org.openapitools.client.models.NFT
@@ -30,7 +32,10 @@ import org.openapitools.client.models.NFTOwnerResponse
 import org.openapitools.client.models.NFTSearchRequest
 import org.openapitools.client.models.NFTSearchResponse
 
+import com.squareup.moshi.Json
+
 import org.openapitools.client.infrastructure.ApiClient
+import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -46,7 +51,7 @@ class SolanaNFTApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("org.openapitools.client.baseUrl", "https://api.blockchainapi.com/v1")
+            System.getProperties().getProperty(ApiClient.baseUrlKey, "https://api.blockchainapi.com/v1")
         }
     }
 
@@ -55,18 +60,16 @@ class SolanaNFTApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-nft/create-an-nft\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Create a Metaplex NFT on Solana.   Read more on this &lt;a href&#x3D;\&quot;https://blog.blockchainapi.com/2021/11/16/a-note-on-nfts.html\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Note: Please see &lt;a href&#x3D;\&quot;https://blog.blockchainapi.com/2022/01/18/how-to-format-off-chain-nft-metadata.html\&quot; target&#x3D;\&quot;_blank\&quot;&gt;this article&lt;/a&gt; to learn more about what &#x60;nft_upload_method&#x60; means and how storing the metadata of an NFT works.  If you&#39;re using &#x60;nft_upload_method &#x3D; \&quot;LINK\&quot;&#x60;, then to add attributes to the NFT or an image, add them to a JSON file and upload that to Arweave/IPFS/Filecoin. See the JSON format &lt;a href&#x3D;\&quot;https://blog.blockchainapi.com/2022/01/18/how-to-format-off-chain-nft-metadata.html\&quot;&gt;here&lt;/a&gt;.  Then supply the link to the JSON file in &#x60;nft_url&#x60;.   NOTE: Don&#39;t use &#x60;nft_metadata&#x60;. Values provided here do not do anything at the moment. We are fixing this soon.  &#x60;Cost: 5 Credits&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param nfTMintRequest  (optional)
     * @return NFT
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun solanaCreateNFT(nfTMintRequest: NFTMintRequest?) : NFT {
-        val localVariableConfig = solanaCreateNFTRequestConfig(nfTMintRequest = nfTMintRequest)
-
-        val localVarResponse = request<NFTMintRequest, NFT>(
-            localVariableConfig
-        )
+        val localVarResponse = solanaCreateNFTWithHttpInfo(nfTMintRequest = nfTMintRequest)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as NFT
@@ -81,6 +84,24 @@ class SolanaNFTApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
                 throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
             }
         }
+    }
+
+    /**
+    * Create an NFT on Solana
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-nft/create-an-nft\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Create a Metaplex NFT on Solana.   Read more on this &lt;a href&#x3D;\&quot;https://blog.blockchainapi.com/2021/11/16/a-note-on-nfts.html\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Note: Please see &lt;a href&#x3D;\&quot;https://blog.blockchainapi.com/2022/01/18/how-to-format-off-chain-nft-metadata.html\&quot; target&#x3D;\&quot;_blank\&quot;&gt;this article&lt;/a&gt; to learn more about what &#x60;nft_upload_method&#x60; means and how storing the metadata of an NFT works.  If you&#39;re using &#x60;nft_upload_method &#x3D; \&quot;LINK\&quot;&#x60;, then to add attributes to the NFT or an image, add them to a JSON file and upload that to Arweave/IPFS/Filecoin. See the JSON format &lt;a href&#x3D;\&quot;https://blog.blockchainapi.com/2022/01/18/how-to-format-off-chain-nft-metadata.html\&quot;&gt;here&lt;/a&gt;.  Then supply the link to the JSON file in &#x60;nft_url&#x60;.   NOTE: Don&#39;t use &#x60;nft_metadata&#x60;. Values provided here do not do anything at the moment. We are fixing this soon.  &#x60;Cost: 5 Credits&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param nfTMintRequest  (optional)
+    * @return ApiResponse<NFT?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaCreateNFTWithHttpInfo(nfTMintRequest: NFTMintRequest?) : ApiResponse<NFT?> {
+        val localVariableConfig = solanaCreateNFTRequestConfig(nfTMintRequest = nfTMintRequest)
+
+        return request<NFTMintRequest, NFT>(
+            localVariableConfig
+        )
     }
 
     /**
@@ -93,6 +114,8 @@ class SolanaNFTApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
         val localVariableBody = nfTMintRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,
@@ -104,23 +127,30 @@ class SolanaNFTApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     }
 
     /**
+     * enum for parameter network
+     */
+     enum class Network_solanaGetNFT(val value: kotlin.String) {
+         @Json(name = "devnet") devnet("devnet"),
+         @Json(name = "mainnet-beta") mainnetMinusBeta("mainnet-beta"),
+         ;
+     }
+
+    /**
     * Get an NFT&#39;s metadata
     * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-nft/get-nft-metadata\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.       Get the metadata of an NFT.  If you&#39;re looking for metadata such as attributes and others, you can retrieve them from the link in the URI field of the NFT metadata returned. See the example on the right. The URI is an Arweave URL. That contains the attributes and other information about the NFT. That URL is stored on the Solana blockchain.  &#x60;Cost: 0.25 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param network The network ID 
     * @param mintAddress The mint address of the NFT 
     * @return NFT
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun solanaGetNFT(network: kotlin.String, mintAddress: kotlin.String) : NFT {
-        val localVariableConfig = solanaGetNFTRequestConfig(network = network, mintAddress = mintAddress)
-
-        val localVarResponse = request<Unit, NFT>(
-            localVariableConfig
-        )
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun solanaGetNFT(network: Network_solanaGetNFT, mintAddress: kotlin.String) : NFT {
+        val localVarResponse = solanaGetNFTWithHttpInfo(network = network, mintAddress = mintAddress)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as NFT
@@ -138,16 +168,36 @@ class SolanaNFTApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     }
 
     /**
+    * Get an NFT&#39;s metadata
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-nft/get-nft-metadata\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.       Get the metadata of an NFT.  If you&#39;re looking for metadata such as attributes and others, you can retrieve them from the link in the URI field of the NFT metadata returned. See the example on the right. The URI is an Arweave URL. That contains the attributes and other information about the NFT. That URL is stored on the Solana blockchain.  &#x60;Cost: 0.25 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param network The network ID 
+    * @param mintAddress The mint address of the NFT 
+    * @return ApiResponse<NFT?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaGetNFTWithHttpInfo(network: Network_solanaGetNFT, mintAddress: kotlin.String) : ApiResponse<NFT?> {
+        val localVariableConfig = solanaGetNFTRequestConfig(network = network, mintAddress = mintAddress)
+
+        return request<Unit, NFT>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaGetNFT
     *
     * @param network The network ID 
     * @param mintAddress The mint address of the NFT 
     * @return RequestConfig
     */
-    fun solanaGetNFTRequestConfig(network: kotlin.String, mintAddress: kotlin.String) : RequestConfig<Unit> {
+    fun solanaGetNFTRequestConfig(network: Network_solanaGetNFT, mintAddress: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -162,18 +212,16 @@ class SolanaNFTApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     * Get the NFT mint fee
     * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-nft/get-nft-mint-fee\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.      Get the estimated fee for minting an NFT on the Solana blockchain using the Metaplex protocol.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @return NFTMintFee
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun solanaGetNFTMintFee() : NFTMintFee {
-        val localVariableConfig = solanaGetNFTMintFeeRequestConfig()
-
-        val localVarResponse = request<Unit, NFTMintFee>(
-            localVariableConfig
-        )
+        val localVarResponse = solanaGetNFTMintFeeWithHttpInfo()
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as NFTMintFee
@@ -191,6 +239,23 @@ class SolanaNFTApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     }
 
     /**
+    * Get the NFT mint fee
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-nft/get-nft-mint-fee\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.      Get the estimated fee for minting an NFT on the Solana blockchain using the Metaplex protocol.  &#x60;Cost: 0 Credit&#x60; (Free) (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @return ApiResponse<NFTMintFee?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaGetNFTMintFeeWithHttpInfo() : ApiResponse<NFTMintFee?> {
+        val localVariableConfig = solanaGetNFTMintFeeRequestConfig()
+
+        return request<Unit, NFTMintFee>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaGetNFTMintFee
     *
     * @return RequestConfig
@@ -199,6 +264,7 @@ class SolanaNFTApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -210,23 +276,30 @@ class SolanaNFTApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     }
 
     /**
+     * enum for parameter network
+     */
+     enum class Network_solanaGetNFTOwner(val value: kotlin.String) {
+         @Json(name = "devnet") devnet("devnet"),
+         @Json(name = "mainnet-beta") mainnetMinusBeta("mainnet-beta"),
+         ;
+     }
+
+    /**
     * Get owner of an NFT
     * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-nft/get-nft-owner\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.       Get the owner of an NFT. This returns the public key of the wallet that owns the associated token account that owns the NFT.  If you want to get the associated token account that literally owns the NFT, derive the associated token account address from the public key returned and the NFT mint address using &lt;a href&#x3D;\&quot;#operation/solanaDeriveAssociatedTokenAccountAddress\&quot;&gt;this endpoint&lt;/a&gt;.  &#x60;Cost: 0.25 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param network The network ID 
     * @param mintAddress The mint address of the NFT 
     * @return NFTOwnerResponse
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun solanaGetNFTOwner(network: kotlin.String, mintAddress: kotlin.String) : NFTOwnerResponse {
-        val localVariableConfig = solanaGetNFTOwnerRequestConfig(network = network, mintAddress = mintAddress)
-
-        val localVarResponse = request<Unit, NFTOwnerResponse>(
-            localVariableConfig
-        )
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun solanaGetNFTOwner(network: Network_solanaGetNFTOwner, mintAddress: kotlin.String) : NFTOwnerResponse {
+        val localVarResponse = solanaGetNFTOwnerWithHttpInfo(network = network, mintAddress = mintAddress)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as NFTOwnerResponse
@@ -244,16 +317,36 @@ class SolanaNFTApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     }
 
     /**
+    * Get owner of an NFT
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-nft/get-nft-owner\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.       Get the owner of an NFT. This returns the public key of the wallet that owns the associated token account that owns the NFT.  If you want to get the associated token account that literally owns the NFT, derive the associated token account address from the public key returned and the NFT mint address using &lt;a href&#x3D;\&quot;#operation/solanaDeriveAssociatedTokenAccountAddress\&quot;&gt;this endpoint&lt;/a&gt;.  &#x60;Cost: 0.25 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param network The network ID 
+    * @param mintAddress The mint address of the NFT 
+    * @return ApiResponse<NFTOwnerResponse?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaGetNFTOwnerWithHttpInfo(network: Network_solanaGetNFTOwner, mintAddress: kotlin.String) : ApiResponse<NFTOwnerResponse?> {
+        val localVariableConfig = solanaGetNFTOwnerRequestConfig(network = network, mintAddress = mintAddress)
+
+        return request<Unit, NFTOwnerResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaGetNFTOwner
     *
     * @param network The network ID 
     * @param mintAddress The mint address of the NFT 
     * @return RequestConfig
     */
-    fun solanaGetNFTOwnerRequestConfig(network: kotlin.String, mintAddress: kotlin.String) : RequestConfig<Unit> {
+    fun solanaGetNFTOwnerRequestConfig(network: Network_solanaGetNFTOwner, mintAddress: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -269,18 +362,16 @@ class SolanaNFTApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-nft/get-nft-candy-machine-id\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Get the candy machine ID from where the NFT came, if any. NFTs can also be minted without a candy machine.  It&#39;s also possible that we return \&quot;Not Found\&quot; when the NFT actually did come from a version of a candy machine. We check for the most popular versions of candy machine, but it is possible that someone creates their own candy machine version and mints NFTs from it.  &#x60;Cost: 1 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param getCandyMachineIDRequest  (optional)
     * @return GetCandyMachineIDResponse
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun solanaGetNFTsCandyMachineId(getCandyMachineIDRequest: GetCandyMachineIDRequest?) : GetCandyMachineIDResponse {
-        val localVariableConfig = solanaGetNFTsCandyMachineIdRequestConfig(getCandyMachineIDRequest = getCandyMachineIDRequest)
-
-        val localVarResponse = request<GetCandyMachineIDRequest, GetCandyMachineIDResponse>(
-            localVariableConfig
-        )
+        val localVarResponse = solanaGetNFTsCandyMachineIdWithHttpInfo(getCandyMachineIDRequest = getCandyMachineIDRequest)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as GetCandyMachineIDResponse
@@ -298,6 +389,24 @@ class SolanaNFTApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     }
 
     /**
+    * Get the ID of the candy machine of an NFT 
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-nft/get-nft-candy-machine-id\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Get the candy machine ID from where the NFT came, if any. NFTs can also be minted without a candy machine.  It&#39;s also possible that we return \&quot;Not Found\&quot; when the NFT actually did come from a version of a candy machine. We check for the most popular versions of candy machine, but it is possible that someone creates their own candy machine version and mints NFTs from it.  &#x60;Cost: 1 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param getCandyMachineIDRequest  (optional)
+    * @return ApiResponse<GetCandyMachineIDResponse?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaGetNFTsCandyMachineIdWithHttpInfo(getCandyMachineIDRequest: GetCandyMachineIDRequest?) : ApiResponse<GetCandyMachineIDResponse?> {
+        val localVariableConfig = solanaGetNFTsCandyMachineIdRequestConfig(getCandyMachineIDRequest = getCandyMachineIDRequest)
+
+        return request<GetCandyMachineIDRequest, GetCandyMachineIDResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaGetNFTsCandyMachineId
     *
     * @param getCandyMachineIDRequest  (optional)
@@ -307,6 +416,8 @@ class SolanaNFTApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
         val localVariableBody = getCandyMachineIDRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,
@@ -322,18 +433,16 @@ class SolanaNFTApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-nft/search-nfts\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  With this endpoint, you can search for NFTs by their symbol, name of NFTs, uuid, configuration address, and update authority.  The output is a list of NFTs that match your query.  You can also provide multiple search clauses, such as the update authority (&#x60;update_authority&#x3D;\&quot;G17UmNGnMJ851x3M1JXocgpft1afcYedjPuFpo1ohhCk\&quot;&#x60;) and symbol begins with \&quot;Sol\&quot; (&#x60;symbol&#x3D;\&quot;Sol\&quot;, symbol_search_method&#x3D;&#39;begins_with&#39;&#x60;).  &#x60;Cost: 1 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
     * @param nfTSearchRequest  (optional)
     * @return kotlin.collections.List<NFTSearchResponse>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun solanaSearchNFTs(nfTSearchRequest: NFTSearchRequest?) : kotlin.collections.List<NFTSearchResponse> {
-        val localVariableConfig = solanaSearchNFTsRequestConfig(nfTSearchRequest = nfTSearchRequest)
-
-        val localVarResponse = request<NFTSearchRequest, kotlin.collections.List<NFTSearchResponse>>(
-            localVariableConfig
-        )
+        val localVarResponse = solanaSearchNFTsWithHttpInfo(nfTSearchRequest = nfTSearchRequest)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<NFTSearchResponse>
@@ -351,6 +460,24 @@ class SolanaNFTApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     }
 
     /**
+    * Search NFTs on Solana
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-nft/search-nfts\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  With this endpoint, you can search for NFTs by their symbol, name of NFTs, uuid, configuration address, and update authority.  The output is a list of NFTs that match your query.  You can also provide multiple search clauses, such as the update authority (&#x60;update_authority&#x3D;\&quot;G17UmNGnMJ851x3M1JXocgpft1afcYedjPuFpo1ohhCk\&quot;&#x60;) and symbol begins with \&quot;Sol\&quot; (&#x60;symbol&#x3D;\&quot;Sol\&quot;, symbol_search_method&#x3D;&#39;begins_with&#39;&#x60;).  &#x60;Cost: 1 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param nfTSearchRequest  (optional)
+    * @return ApiResponse<kotlin.collections.List<NFTSearchResponse>?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaSearchNFTsWithHttpInfo(nfTSearchRequest: NFTSearchRequest?) : ApiResponse<kotlin.collections.List<NFTSearchResponse>?> {
+        val localVariableConfig = solanaSearchNFTsRequestConfig(nfTSearchRequest = nfTSearchRequest)
+
+        return request<NFTSearchRequest, kotlin.collections.List<NFTSearchResponse>>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaSearchNFTs
     *
     * @param nfTSearchRequest  (optional)
@@ -360,6 +487,8 @@ class SolanaNFTApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
         val localVariableBody = nfTSearchRequest
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,

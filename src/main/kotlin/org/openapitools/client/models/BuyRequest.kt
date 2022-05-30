@@ -29,6 +29,8 @@ import com.squareup.moshi.Json
  *
  * @param wallet 
  * @param nftPrice The number of lamports you are expecting to purchase the NFT for. We check the price of the NFT before  purchasing it to ensure that it matches your expectation. There are 1e9 (1 billion) Lamports in a SOL. 
+ * @param skipChecks Whether or not to skip the provided checks (e.g., Is this NFT not listed? Is this NFT listed for a different price than you set?) and proceed with the transaction. 
+ * @param sellerPublicKey The public key of the seller. Only required if providing `skip_checks`. Otherwise, don't provide it. 
  */
 
 data class BuyRequest (
@@ -38,7 +40,15 @@ data class BuyRequest (
 
     /* The number of lamports you are expecting to purchase the NFT for. We check the price of the NFT before  purchasing it to ensure that it matches your expectation. There are 1e9 (1 billion) Lamports in a SOL.  */
     @Json(name = "nft_price")
-    val nftPrice: java.math.BigDecimal
+    val nftPrice: java.math.BigDecimal,
+
+    /* Whether or not to skip the provided checks (e.g., Is this NFT not listed? Is this NFT listed for a different price than you set?) and proceed with the transaction.  */
+    @Json(name = "skip_checks")
+    val skipChecks: kotlin.Boolean? = false,
+
+    /* The public key of the seller. Only required if providing `skip_checks`. Otherwise, don't provide it.  */
+    @Json(name = "seller_public_key")
+    val sellerPublicKey: kotlin.String? = "null"
 
 )
 

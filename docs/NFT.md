@@ -12,6 +12,11 @@ Name | Type | Description | Notes
 **sellerFeeBasisPoints** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional]
 **mintSecretRecoveryPhrase** | **kotlin.String** |  |  [optional]
 **explorerUrl** | **kotlin.String** |  |  [optional]
+**metadataAccount** | **kotlin.String** | The metadata account of the NFT  |  [optional]
+**editionNonce** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional]
+**tokenStandard** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional]
+**collection** | [**NFTCollection**](NFTCollection.md) |  |  [optional]
+**uses** | [**java.math.BigDecimal**](java.math.BigDecimal.md) |  |  [optional]
 
 
 

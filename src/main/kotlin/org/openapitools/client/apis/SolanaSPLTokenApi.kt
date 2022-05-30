@@ -20,9 +20,14 @@
 
 package org.openapitools.client.apis
 
+import java.io.IOException
+
 import org.openapitools.client.models.GetSPLTokenResponse
 
+import com.squareup.moshi.Json
+
 import org.openapitools.client.infrastructure.ApiClient
+import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -38,7 +43,7 @@ class SolanaSPLTokenApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("org.openapitools.client.baseUrl", "https://api.blockchainapi.com/v1")
+            System.getProperties().getProperty(ApiClient.baseUrlKey, "https://api.blockchainapi.com/v1")
         }
     }
 
@@ -48,18 +53,16 @@ class SolanaSPLTokenApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     * @param publicKey The public key of the token 
     * @param network The network ID (devnet, mainnet-beta) 
     * @return GetSPLTokenResponse
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun solanaGetSPLToken(publicKey: kotlin.String, network: kotlin.String) : GetSPLTokenResponse {
-        val localVariableConfig = solanaGetSPLTokenRequestConfig(publicKey = publicKey, network = network)
-
-        val localVarResponse = request<Unit, GetSPLTokenResponse>(
-            localVariableConfig
-        )
+        val localVarResponse = solanaGetSPLTokenWithHttpInfo(publicKey = publicKey, network = network)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as GetSPLTokenResponse
@@ -77,6 +80,25 @@ class SolanaSPLTokenApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     }
 
     /**
+    * Get SPL token metadata
+    * &lt;a href&#x3D;\&quot;https://github.com/BL0CK-X/the-blockchain-api/tree/main/examples/solana-spl-token/get-spl-token\&quot; target&#x3D;\&quot;_blank\&quot;&gt;See examples (Python, JavaScript)&lt;/a&gt;.  Retrieves basic information about an SPL token given its &#x60;mint_address&#x60;.  You can see the mint addresses of popular SPL tokens &lt;a href&#x3D;\&quot;https://raw.githubusercontent.com/solana-labs/token-list/main/src/tokens/solana.tokenlist.json\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt;.  Some example mint addresses of SPL tokens: - USDC: EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v - Mango: MangoCzJ36AjZyKwVj3VnYU4GTonjfVEnJmvvWaxLac - Serum: SRMuApVNdxXokk5GT7XD5cUUgXMBCoAz2LHeuAoKWRt - Raydium: 4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R - wSOL: So11111111111111111111111111111111111111112 - ATLAS: ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx  &#x60;Cost: 1 Credit&#x60; (&lt;a href&#x3D;\&quot;#section/Pricing\&quot;&gt;See Pricing&lt;/a&gt;)
+    * @param publicKey The public key of the token 
+    * @param network The network ID (devnet, mainnet-beta) 
+    * @return ApiResponse<GetSPLTokenResponse?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun solanaGetSPLTokenWithHttpInfo(publicKey: kotlin.String, network: kotlin.String) : ApiResponse<GetSPLTokenResponse?> {
+        val localVariableConfig = solanaGetSPLTokenRequestConfig(publicKey = publicKey, network = network)
+
+        return request<Unit, GetSPLTokenResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
     * To obtain the request config of the operation solanaGetSPLToken
     *
     * @param publicKey The public key of the token 
@@ -87,6 +109,7 @@ class SolanaSPLTokenApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
